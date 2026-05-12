@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hospital System - Single Page</title>
+
+  <!-- Shared Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Shared root styles (kept minimal; each view keeps its own original CSS) -->
+  <style>
+    .view { display:none; }
+    .view.active { display:block; }
+  </style>
+</head>
+
+<body>
+  <!-- ======================= LOGIN ======================= -->
+  <section class="view" id="view-login" data-view="login">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Login</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background: linear-gradient(to right, #dabfd4, #7c5c6f);
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+
+        .login-container {
+          background-color: #ffffff;
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+          width: 350px;
+          text-align: center;
+        }
+
+        .login-container h2 {
+          margin-bottom: 20px;
+          color: #7c5c6f;
+        }
+
+        .role-container {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 20px;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .role-container button {
+          padding: 10px 15px;
+          border: none;
+          background-color: #8A496B;
+          color: white;
+          cursor: pointer;
+          border-radius: 5px;
+          transition: background-color 0.3s ease;
+        }
+
+        .role-container button:hover {
+          background-color: #8A496B;
+        }
+
+        .role-container button.active {
+          background-color: #7c5c6f;
+        }
+
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        label {
+          text-align: left;
+          font-weight: bold;
+          color: #7c5c6f;
+        }
+
+        input {
+          padding: 10px;
+          border: 1px solid #dabfd4;
+          border-radius: 5px;
+          outline: none;
+        }
+
+        input:focus {
+          border-color: #8A496B;
+          box-shadow: 0 0 5px rgba(124, 92, 111, 0.35);
+        }
+
+        button[type="submit"] {
+          padding: 12px;
+          border: none;
+          background-color: #8A496B;
+          color: white;
+          cursor: pointer;
+          border-radius: 5px;
+          font-size: 16px;
+          transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+          background-color: #8A496B;
+        }
+
+        .extra-links {
+          margin-top: 15px;
+          display: flex;
+          justify-content: space-between;
+        }
+
+        .extra-links a {
+          text-decoration: none;
+          color: #7c5c6f;
+          font-weight: bold;
+          transition: color 0.3s ease;
+        }
+
+        .extra-links a:hover {
+          color: #7c5c6f;
+        }
+      </style>
+    </head>
+
+    <body>
+      <div class="login-container">
+        <h2>Login</h2>
+
+        <!-- Role selection -->
+        <div class="role-container">
+          <button type="button" onclick="window.__go('doctordashboard')">Doctor</button>
+          <button type="button" onclick="alert('Patients dashboard not yet implemented.')">Patients</button>
+          <button type="button" onclick="alert('Nurse dashboard not yet implemented in this repo.')">Nurse</button>
+          <button type="button" onclick="window.__go('admindashboard')">Admin</button>
+        </div>
+
+        <form id="loginForm">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required />
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+
+          <button type="submit">Login</button>
+        </form>
+
+        <div class="extra-links">
+          <a href="#signup">Sign Up</a>
+          <a href="#forgotpassword">Forgot Password?</a>
+        </div>
+      </div>
+
+      <script>
+        // This login view uses simplified navigation based on role buttons.
+        // On submit, just route to the last selected role if any.
+        (function(){
+          const form = document.getElementById('loginForm');
+          form.addEventListener('submit', (e)=>{
+            e.preventDefault();
+            // Default route
+            // If you want role-based routing, you can extend this.
+            alert('Logged in (demo).');
+          });
+        })();
+      </script>
+    </body>
+    </html>
+  </section>
+
+  <!-- ======================= FORGOT PASSWORD ======================= -->
+  <section class="view" id="view-forgotpassword" data-view="forgotpassword">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Forgot Password</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background: linear-gradient(to right, #dabfd4, #7c5c6f);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+        }
+
+        .forgot-container {
+          background: #ffffff;
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+          width: 350px;
+          text-align: center;
+        }
+
+        .forgot-container h2 {
+          margin-bottom: 20px;
+          color: #7c5c6f;
+        }
+
+        .forgot-container label {
+          display: block;
+          margin-bottom: 8px;
+          text-align: left;
+          font-weight: bold;
+          color: #7c5c6f;
+        }
+
+        .forgot-container input {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 15px;
+          border: 1px solid #dabfd4;
+          border-radius: 5px;
+          outline: none;
+        }
+
+        .forgot-container input:focus {
+          border-color: #8A496B;
+          box-shadow: 0 0 5px rgba(124, 92, 111, 0.35);
+        }
+
+        .forgot-container button {
+          width: 100%;
+          padding: 12px;
+          background-color: #8A496B;
+          border: none;
+          color: white;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background-color 0.3s ease;
+        }
+
+        .forgot-container button:hover {
+          background-color: #8A496B;
+        }
+
+        .forgot-container .back-link {
+          display: block;
+          margin-top: 15px;
+          color: #7c5c6f;
+          text-decoration: none;
+          font-weight: bold;
+          transition: color 0.3s ease;
+        }
+
+        .forgot-container .back-link:hover {
+          color: #7c5c6f;
+          text-decoration: underline;
+        }
+      </style>
+    </head>
+
+    <body>
+      <div class="forgot-container">
+        <h2>Forgot Password</h2>
+        <form id="forgotForm">
+          <label for="email">Enter your email address:</label>
+          <input type="email" id="email" name="email" required />
+          <button type="submit">Reset Password</button>
+        </form>
+        <a href="#login" class="back-link">Back to Login</a>
+      </div>
+
+      <script>
+        (function(){
+          document.getElementById('forgotForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            alert('Reset link sent (demo).');
+          });
+        })();
+      </script>
+    </body>
+    </html>
+  </section>
+
+  <!-- ======================= ADMIN DASHBOARD ======================= -->
+  <section class="view" id="view-admindashboard" data-view="admindashboard">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Admin Dashboard</title>
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+      <style>
+        body {
+          margin: 0;
+          font-family: 'Open Sans', sans-serif;
+          display: flex;
+          height: 100vh;
+          background: linear-gradient(135deg, #dabfd4 25%, #7c5c6f 100%);
+          background-attachment: fixed;
+          position: relative;
+          overflow: hidden;
+        }
+        body::before {
+          content: "";
+          position: absolute;
+          top: -60px;
+          left: -60px;
+          width: 220px;
+          height: 220px;
+          background: rgba(124, 92, 111, 0.15);
+          border-radius: 50%;
+          animation: float 8s infinite ease-in-out;
+        }
+        body::after {
+          content: "";
+          position: absolute;
+          bottom: -100px;
+          right: -100px;
+          width: 280px;
+          height: 280px;
+          background: rgba(138, 73, 107, 0.2);
+          border-radius: 50%;
+          animation: float 10s infinite ease-in-out reverse;
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(20px); }
+        }
+        .top-bar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 60px;
+          background-color: #8A496B;
+          color: white;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 20px;
+          z-index: 1000;
+          box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+          font-family: 'Montserrat', sans-serif;
+        }
+        .top-bar .left, .top-bar .right {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-weight: bold;
+        }
+        .sidebar {
+          position: fixed;
+          top: 60px;
+          left: 0;
+          width: 70px;
+          height: calc(100% - 60px);
+          background-color: #7c5c6f;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding-top: 20px;
+          transition: width 0.3s;
+          overflow: hidden;
+          box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+        }
+        .sidebar:hover { width: 220px; }
+        .sidebar a {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: white;
+          text-decoration: none;
+          padding: 15px;
+          width: 100%;
+          transition: background-color 0.3s;
+          border-radius: 5px;
+          font-family: 'Montserrat', sans-serif;
+        }
+        .sidebar a:hover { background-color: #8A496B; }
+        .sidebar a.active {
+          background-color: #7c5c6f;
+          font-weight: bold;
+        }
+        .sidebar i { font-size: 20px; }
+        .sidebar span { display: none; font-weight: bold; }
+        .sidebar:hover span { display: inline; }
+        .sidebar:hover~.dashboard { margin-left: 220px; }
+        .dashboard {
+          margin-top: 80px;
+          margin-left: 90px;
+          padding: 20px;
+          flex-grow: 1;
+          transition: margin-left 0.3s ease;
+        }
+        .dashboard-header {
+          margin-bottom: 25px;
+          font-size: 26px;
+          font-weight: bold;
+          color: #7c5c6f;
+          text-align: center;
+          font-family: 'Montserrat', sans-serif;
+        }
+        .dashboard-grid {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 20px;
+        }
+        .card {
+          background: rgba(255, 255, 255, 0.7);
+          border: 1px solid rgba(165, 214, 167, 0.6);
+          border-radius: 12px;
+          padding: 20px;
+          text-align: center;
+          cursor: pointer;
+          transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+          min-height: 130px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          backdrop-filter: blur(8px);
+        }
+        .card:hover {
+          transform: scale(1.05);
+          box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
+          background: rgba(255, 255, 255, 0.85);
+        }
+        .card i { color: #8A496B; margin-bottom: 10px; }
+        .card p {
+          margin: 0;
+          font-weight: bold;
+          color: #7c5c6f;
+          font-family: 'Montserrat', sans-serif;
+        }
+      </style>
+    </head>
+
+    <body>
+      <div class="top-bar">
+        <div class="left"><i class="fas fa-user-shield"></i><strong>Admin</strong></div>
+        <div class="right"><i class="fas fa-hospital"></i><strong>SalamatDoc Hospital</strong></div>
+      </div>
+
+      <div class="sidebar">
+        <a href="#admindashboard" class="active"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+        <a href="#" onclick="alert('Not implemented'); return false;"><i class="fas fa-user-cog"></i><span>Account Settings</span></a>
+        <a href="#" onclick="alert('Not implemented'); return false;"><i class="fas fa-tools"></i><span>System Control</span></a>
+        <a href="#login"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+      </div>
+
+      <div class="dashboard">
+        <div class="dashboard-header">Welcome to Dashboard</div>
+        <div class="dashboard-grid">
+          <div class="card">
+            <a href="#patient-registration" style="text-decoration:none; color:inherit;">
+              <i class="fas fa-user-plus fa-2x"></i>
+              <p>Patient Registration</p>
+            </a>
+          </div>
+          <div class="card">
+            <a href="#profilemanagement" style="text-decoration:none; color:inherit;">
+              <i class="fas fa-user-plus fa-2x"></i>
+              <p>Profile Management</p>
+            </a>
+          </div>
+          <div class="card">
+            <a href="#consultation" style="text-decoration:none; color:inherit;">
+              <i class="fas fa-calendar-check fa-2x"></i>
+              <p>Consultation</p>
+            </a>
+          </div>
+          <div class="card">
+            <a href="#bed-appointment" style="text-decoration:none; color:inherit;">
+              <i class="fas fa-bed fa-2x"></i>
+              <p>Bed Appointment</p>
+            </a>
+          </div>
+          <div class="card">
+            <a href="#medicalrecords" style="text-decoration:none; color:inherit;">
+              <i class="fas fa-file-medical fa-2x"></i>
+              <p>Medical Records</p>
+            </a>
+          </div>
+          <div class="card">
+            <a href="#medicine" style="text-decoration:none; color:inherit;">
+              <i class="fas fa-pills fa-2x"></i>
+              <p>Pharmacy</p>
+            </a>
+          </div>
+          <div class="card">
+            <a href="#emergency-queue" style="text-decoration:none; color:inherit;">
+              <i class="fas fa-ambulance fa-2x"></i>
+              <p>Emergency Queue</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </body>
+    </html>
+  </section>
+
+  <!-- ======================= DOCTOR DASHBOARD ======================= -->
+  <section class="view" id="view-doctordashboard" data-view="doctordashboard">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Doctor Dashboard</title>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+      <style>
+        body {
+          margin: 0;
+          font-family: 'Poppins', sans-serif;
+          display: flex;
+          height: 100vh;
+          background: linear-gradient(135deg, #dabfd4 25%, #7c5c6f 100%);
+          background-attachment: fixed;
+          position: relative;
+          overflow: hidden;
+        }
+        body::before {
+          content: "";
+          position: absolute;
+          top: -60px;
+          left: -60px;
+          width: 220px;
+          height: 220px;
+          background: rgba(124, 92, 111, 0.15);
+          border-radius: 50%;
+          animation: float 8s infinite ease-in-out;
+        }
+        body::after {
+          content: "";
+          position: absolute;
+          bottom: -100px;
+          right: -100px;
+          width: 280px;
+          height: 280px;
+          background: rgba(138, 73, 107, 0.2);
+          border-radius: 50%;
+          animation: float 10s infinite ease-in-out reverse;
+        }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(20px)} }
+
+        .top-bar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 60px;
+          background-color: #8A496B;
+          color: white;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 20px;
+          z-index: 1000;
+          box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+          font-family: 'Poppins', sans-serif;
+        }
+        .top-bar .left, .top-bar .right { display: flex; align-items: center; gap: 10px; font-weight: bold; }
+
+        .sidebar {
+          position: fixed;
+          top: 60px;
+          left: 0;
+          width: 70px;
+          height: calc(100% - 60px);
+          background-color: #7c5c6f;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding-top: 20px;
+          transition: width 0.3s;
+          overflow: hidden;
+          box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+        }
+        .sidebar:hover { width: 220px; }
+        .sidebar a {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: white;
+          text-decoration: none;
+          padding: 15px;
+          width: 100%;
+          transition: background-color 0.3s;
+          border-radius: 5px;
+          font-family: 'Poppins', sans-serif;
+        }
+        .sidebar a:hover { background-color: #8A496B; }
+        .sidebar a.active { background-color: #7c5c6f; font-weight: bold; }
+        .sidebar i { font-size: 20px; }
+        .sidebar span { display: none; font-weight: bold; }
+        .sidebar:hover span { display: inline; }
+        .sidebar:hover~.dashboard { margin-left: 220px; }
+
+        .dashboard { margin-top: 80px; margin-left: 90px; padding: 20px; flex-grow: 1; transition: margin-left 0.3s ease; }
+        .dashboard-header { margin-bottom: 25px; font-size: 26px; font-weight: bold; color: #7c5c6f; text-align: center; font-family: 'Poppins', sans-serif; }
+
+        .dashboard-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+        .card {
+          background: rgba(255, 255, 255, 0.7);
+          border: 1px solid rgba(165, 214, 167, 0.6);
+          border-radius: 12px;
+          padding: 20px;
+          text-align: center;
+          cursor: pointer;
+          transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+          min-height: 130px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          backdrop-filter: blur(8px);
+        }
+        .card:hover { transform: scale(1.05); box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2); background: rgba(255, 255, 255, 0.85); }
+        .card i { color: #8A496B; margin-bottom: 10px; }
+        .card p { margin: 0; font-weight: bold; color: #7c5c6f; font-family: 'Poppins', sans-serif; }
+      </style>
+    </head>
+    <body>
+      <div class="top-bar">
+        <div class="left"><i class="fas fa-user-md"></i><strong>Doctor</strong></div>
+        <div class="right"><i class="fas fa-hospital"></i><strong>SalamatDoc Hospital</strong></div>
+      </div>
+
+      <div class="sidebar">
+        <a href="#doctordashboard" class="active"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+        <a href="#" onclick="alert('Not implemented'); return false;"><i class="fas fa-user-cog"></i><span>Account Settings</span></a>
+        <a href="#mypatients"><i class="fas fa-tools"></i><span>My Patients</span></a>
+        <a href="#login"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+      </div>
+
+      <div class="dashboard">
+        <div class="dashboard-header">Welcome to Dashboard</div>
+        <div class="dashboard-grid">
+          <div class="card"><a href="#patient-registration" style="text-decoration:none; color:inherit;"><i class="fas fa-user-plus fa-2x"></i><p>Patient Registration</p></a></div>
+          <div class="card"><a href="#" style="text-decoration:none; color:inherit;" onclick="alert('appointment.html not included in repo'); return false;"><i class="fas fa-calendar-check fa-2x"></i><p>Appointment</p></a></div>
+          <div class="card"><a href="#consultation" style="text-decoration:none; color:inherit;"><i class="fas fa-stethoscope fa-2x"></i><p>Consultation</p></a></div>
+          <div class="card"><a href="#bed-appointment" style="text-decoration:none; color:inherit;"><i class="fas fa-bed fa-2x"></i><p>Bed Appointment</p></a></div>
+          <div class="card"><a href="#medicalrecords" style="text-decoration:none; color:inherit;"><i class="fas fa-file-medical fa-2x"></i><p>Medical Records</p></a></div>
+          <div class="card"><a href="#medicine" style="text-decoration:none; color:inherit;"><i class="fas fa-pills fa-2x"></i><p>Pharmacy</p></a></div>
+          <div class="card"><a href="#emergency-queue" style="text-decoration:none; color:inherit;"><i class="fas fa-ambulance fa-2x"></i><p>Emergency Queue</p></a></div>
+        </div>
+      </div>
+    </body>
+    </html>
+  </section>
+
+  <!-- ======================= BED APPOINTMENT ======================= -->
+  <section class="view" id="view-bed-appointment" data-view="bed-appointment">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Bed Appointment</title>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+      <style>
+        body {
+          margin: 0;
+          font-family: 'Poppins', sans-serif;
+          height: 100vh;
+          background: linear-gradient(135deg, #dabfd4 25%, #7c5c6f 100%);
+          overflow: hidden;
+        }
+        .top-bar {
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          height: 60px;
+          background: #8A496B;
+          color: white;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 20px;
+          z-index: 1000;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          font-family: 'Poppins', sans-serif;
+        }
+        .top-bar .left, .top-bar .right { display:flex; align-items:center; gap:10px; font-weight:bold; }
+
+        .sidebar {
+          position: fixed;
+          top: 60px;
+          left: 0;
+          width: 70px;
+          height: calc(100% - 60px);
+          background: #7c5c6f;
+          display:flex;
+          flex-direction:column;
+          align-items:flex-start;
+          padding-top:20px;
+          transition: width 0.3s;
+          overflow:hidden;
+          box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+        }
+        .sidebar:hover { width: 220px; }
+        .sidebar a {
+          display:flex;
+          align-items:center;
+          gap:10px;
+          color:white;
+          text-decoration:none;
+          padding:15px;
+          width:100%;
+          transition: background-color 0.3s;
+          border-radius:5px;
+          font-family:'Poppins', sans-serif;
+        }
+        .sidebar a:hover { background: #8A496B; }
+        .sidebar a.active { background: #7c5c6f; font-weight:bold; }
+        .sidebar i { font-size:20px; }
+        .sidebar span { display:none; font-weight:bold; }
+        .sidebar:hover span { display:inline; }
+        .sidebar:hover~.dashboard { margin-left: 220px; }
+
+        .dashboard {
+          margin-top: 80px;
+          margin-left: 90px;
+          padding: 20px;
+          height: calc(100% - 200px);
+          display:flex;
+          flex-direction:column;
+          transition: margin-left 0.3s;
+        }
+        .dashboard-header {
+          margin-bottom: 20px;
+          font-size: 26px;
+          font-weight: bold;
+          color: #7c5c6f;
+          text-align: center;
+          font-family: 'Poppins', sans-serif;
+        }
+        .bed-container {
+          flex-grow: 1;
+          overflow-y: auto;
+          padding: 10px;
+          background: rgba(255, 255, 255, 0.8);
+          border-radius: 8px;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #dabfd4; padding: 10px; text-align: left; }
+        th { background: #8A496B; color: white; font-family:'Poppins', sans-serif; }
+        tr.available-row td { background:#d4edda; }
+        tr.reserved-row td { background:#fff3cd; }
+        tr.occupied-row td { background:#f8d7da; }
+        tr.maintenance-row td { background:#e0e0e0; }
+
+        .back-link {
+          position: fixed;
+          bottom: 20px;
+          left: 90px;
+          color: #7c5c6f;
+          font-family: 'Poppins', sans-serif;
+          text-decoration: none;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          transition: left 0.3s;
+        }
+        .back-link:hover { text-decoration: underline; }
+        .sidebar:hover~.back-link { left: 240px; }
+
+        .legend {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          display: flex;
+          gap: 15px;
+          font-family: 'Poppins', sans-serif;
+        }
+        .legend span { display:flex; align-items:center; gap:5px; font-weight:bold; }
+
+        .context-menu {
+          position: absolute;
+          display: none;
+          background: white;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+          z-index: 2000;
+        }
+        .context-menu ul { list-style:none; margin:0; padding:5px 0; }
+        .context-menu ul li { padding:8px 15px; cursor:pointer; }
+        .context-menu ul li:hover { background:#f1f1f1; }
+
+        .modal {
+          display:none;
+          position: fixed;
+          z-index: 3000;
+          left:0; top:0;
+          width:100%; height:100%;
+          background: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+          background:#fff;
+          margin: 5% auto;
+          padding:20px;
+          border-radius:8px;
+          width:420px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .close { float:right; font-size:24px; cursor:pointer; }
+        .modal-content label { display:block; margin-top:10px; font-weight:bold; color:#7c5c6f; }
+        .modal-content input, .modal-content textarea { width:100%; padding:8px; margin-top:5px; border:1px solid #dabfd4; border-radius:6px; }
+        .modal-content button { margin-top:15px; padding:10px; background:#8A496B; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+        .modal-content button:hover { background:#8A496B; }
+      </style>
+    </head>
+    <body>
+      <div class="top-bar">
+        <div class="left"><i class="fas fa-user-shield"></i><strong>Admin</strong></div>
+        <div class="right"><i class="fas fa-hospital"></i><strong>SalamatDoc Hospital</strong></div>
+      </div>
+
+      <div class="sidebar">
+        <a href="#admindashboard" class="active"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+        <a href="#" onclick="alert('Not implemented'); return false;"><i class="fas fa-cogs"></i><span>System Control</span></a>
+        <a href="#" onclick="alert('Not implemented'); return false;"><i class="fas fa-user-cog"></i><span>Account Settings</span></a>
+        <a href="#login"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+      </div>
+
+      <div class="dashboard">
+        <div class="dashboard-header">Bed Appointment</div>
+        <div class="bed-container">
+          <input type="text" id="searchInput" placeholder="Search beds, patients, doctors..." style="margin-bottom:10px; padding:8px; width:100%; border:1px solid #dabfd4; border-radius:6px;">
+
+          <table id="bedTable">
+            <thead>
+              <tr>
+                <th>Wing</th>
+                <th>Room No.</th>
+                <th>Bed No.</th>
+                <th>Status</th>
+                <th>Patient</th>
+                <th>Admit Date</th>
+                <th>Discharge Date</th>
+                <th>Doctor</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="available-row"><td>East Wing</td><td>301</td><td>1</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+              <tr class="available-row"><td>East Wing</td><td>301</td><td>2</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+              <tr class="available-row"><td>East Wing</td><td>302</td><td>1</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+              <tr class="available-row"><td>East Wing</td><td>302</td><td>2</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+              <tr class="occupied-row"><td>ICU</td><td>402B</td><td>1</td><td>Occupied</td><td>John Doe</td><td>2026-04-28</td><td>2026-05-05</td><td>Dr. Rivera</td><td>Requires oxygen</td></tr>
+              <tr class="reserved-row"><td>Private Ward</td><td>105</td><td>1</td><td>Reserved</td><td>Jane Smith</td><td>2026-04-30</td><td>2026-05-02</td><td>Dr. Adams</td><td>VIP room</td></tr>
+              <tr class="available-row"><td>West Wing</td><td>201</td><td>1</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+              <tr class="available-row"><td>West Wing</td><td>201</td><td>2</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+              <tr class="available-row"><td>West Wing</td><td>202</td><td>1</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+              <tr class="available-row"><td>West Wing</td><td>202</td><td>2</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+              <tr class="available-row"><td>General Ward</td><td>101</td><td>1</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+              <tr class="available-row"><td>General Ward</td><td>101</td><td>2</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+              <tr class="available-row"><td>General Ward</td><td>102</td><td>1</td><td>Available</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <a href="#admindashboard" class="back-link"><i class="fas fa-arrow-left"></i><span>Back</span></a>
+      <div class="legend">
+        <span><i class="fas fa-square" style="color:#d4edda;"></i> Available</span>
+        <span><i class="fas fa-square" style="color:#fff3cd;"></i> Reserved</span>
+        <span><i class="fas fa-square" style="color:#f8d7da;"></i> Occupied</span>
+        <span><i class="fas fa-square" style="color:#e0e0e0;"></i> Maintenance</span>
+      </div>
+
+      <div class="context-menu" id="contextMenu">
+        <ul>
+          <li id="viewBedDetails">View Details</li>
+          <li id="reserveBed">Reserve Bed</li>
+        </ul>
+      </div>
+
+      <div id="bedModal" class="modal">
+        <div class="modal-content">
+          <span id="closeBedModal" class="close">&times;</span>
+          <h2>Reserve Bed</h2>
+          <form id="bedForm">
+            <label>Wing:</label><input type="text" id="wing" readonly>
+            <label>Room No.:</label><input type="text" id="roomNo" readonly>
+            <label>Bed No.:</label><input type="text" id="bedNo" readonly>
+            <label>Patient Name:</label><input type="text" id="patientName" required>
+            <label>Admission Date:</label><input type="date" id="admissionDate" required>
+            <label>Expected Discharge Date:</label><input type="date" id="dischargeDate" required>
+            <label>Doctor Assigned:</label><input type="text" id="doctorAssigned" required>
+            <label>Notes:</label><textarea id="notes"></textarea>
+            <button type="submit">Reserve</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="viewModal" class="modal">
+        <div class="modal-content">
+          <span id="closeViewModal" class="close">&times;</span>
+          <h2>Bed Details</h2>
+          <p><strong>Wing:</strong> <span id="viewWing"></span></p>
+          <p><strong>Room:</strong> <span id="viewRoom"></span></p>
+          <p><strong>Bed No.:</strong> <span id="viewBed"></span></p>
+          <p><strong>Status:</strong> <span id="viewStatus"></span></p>
+          <p><strong>Patient:</strong> <span id="viewPatient"></span></p>
+          <p><strong>Admit Date:</strong> <span id="viewAdmit"></span></p>
+          <p><strong>Discharge Date:</strong> <span id="viewDischarge"></span></p>
+          <p><strong>Doctor:</strong> <span id="viewDoctor"></span></p>
+          <p><strong>Notes:</strong> <span id="viewNotes"></span></p>
+        </div>
+      </div>
+
+      <script>
+        (function(){
+          const rows = document.querySelectorAll('#bedTable tbody tr');
+          const contextMenu = document.getElementById('contextMenu');
+          const bedModal = document.getElementById('bedModal');
+          const viewModal = document.getElementById('viewModal');
+          let currentRow = null;
+
+          rows.forEach(row => {
+            row.addEventListener('click', function () {
+              currentRow = row;
+              document.getElementById('viewWing').innerText = currentRow.children[0].innerText;
+              document.getElementById('viewRoom').innerText = currentRow.children[1].innerText;
+              document.getElementById('viewBed').innerText = currentRow.children[2].innerText;
+              document.getElementById('viewStatus').innerText = currentRow.children[3].innerText;
+              document.getElementById('viewPatient').innerText = currentRow.children[4].innerText;
+              document.getElementById('viewAdmit').innerText = currentRow.children[5].innerText;
+              document.getElementById('viewDischarge').innerText = currentRow.children[6].innerText;
+              document.getElementById('viewDoctor').innerText = currentRow.children[7].innerText;
+              document.getElementById('viewNotes').innerText = currentRow.children[8].innerText;
+              viewModal.style.display = 'block';
+            });
+
+            row.addEventListener('contextmenu', function (e) {
+              e.preventDefault();
+              currentRow = row;
+              contextMenu.style.display = 'block';
+              contextMenu.style.top = e.pageY + 'px';
+              contextMenu.style.left = e.pageX + 'px';
+            });
+          });
+
+          document.addEventListener('click', () => contextMenu.style.display = 'none');
+
+          document.getElementById('viewBedDetails').addEventListener('click', () => {
+            if(!currentRow) return;
+            document.getElementById('viewWing').innerText = currentRow.children[0].innerText;
+            document.getElementById('viewRoom').innerText = currentRow.children[1].innerText;
+            document.getElementById('viewBed').innerText = currentRow.children[2].innerText;
+            document.getElementById('viewStatus').innerText = currentRow.children[3].innerText;
+            document.getElementById('viewPatient').innerText = currentRow.children[4].innerText;
+            document.getElementById('viewAdmit').innerText = currentRow.children[5].innerText;
+            document.getElementById('viewDischarge').innerText = currentRow.children[6].innerText;
+            document.getElementById('viewDoctor').innerText = currentRow.children[7].innerText;
+            document.getElementById('viewNotes').innerText = currentRow.children[8].innerText;
+            viewModal.style.display = 'block';
+          });
+
+          document.getElementById('reserveBed').addEventListener('click', () => {
+            if(!currentRow) return;
+            document.getElementById('wing').value = currentRow.children[0].innerText;
+            document.getElementById('roomNo').value = currentRow.children[1].innerText;
+            document.getElementById('bedNo').value = currentRow.children[2].innerText;
+            bedModal.style.display = 'block';
+          });
+
+          document.getElementById('closeBedModal').addEventListener('click', () => bedModal.style.display = 'none');
+          document.getElementById('closeViewModal').addEventListener('click', () => viewModal.style.display = 'none');
+
+          document.getElementById('bedForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            if(!currentRow) return;
+            const patient = document.getElementById('patientName').value;
+            const admitDate = document.getElementById('admissionDate').value;
+            const dischargeDate = document.getElementById('dischargeDate').value;
+            const doctor = document.getElementById('doctorAssigned').value;
+            const notes = document.getElementById('notes').value;
+
+            currentRow.children[4].innerText = patient;
+            currentRow.children[5].innerText = admitDate;
+            currentRow.children[6].innerText = dischargeDate;
+            currentRow.children[7].innerText = doctor;
+            currentRow.children[8].innerText = notes;
+            currentRow.children[3].innerText = "Reserved";
+            currentRow.className = "reserved-row";
+
+            bedModal.style.display = 'none';
+            alert("Bed " + document.getElementById('bedNo').value + " reserved for " + patient);
+          });
+
+          window.onclick = function (event) {
+            if (event.target === bedModal) bedModal.style.display = "none";
+            if (event.target === viewModal) viewModal.style.display = "none";
+          };
+
+          document.getElementById('searchInput').addEventListener('keyup', function () {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#bedTable tbody tr');
+            rows.forEach(row => {
+              const text = row.innerText.toLowerCase();
+              row.style.display = text.includes(filter) ? '' : 'none';
+            });
+          });
+        })();
+      </script>
+    </body>
+    </html>
+  </section>
+
+  <!-- ======================= CONSULTATION (from repo consultation.html) ======================= -->
+  <section class="view" id="view-consultation" data-view="consultation">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Doctor's Appointment</title>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+      <style>
+        /* Keeping original consultation.html CSS as-is (may override other views, but views are hidden/shown). */
+        body { margin:0; font-family:'Poppins', sans-serif; height:100vh; background:linear-gradient(135deg,#dabfd4 25%, #7c5c6f 100%); overflow:hidden; }
+        .top-bar { position:fixed; top:0; left:0; right:0; height:60px; background:#8A496B; color:white; display:flex; justify-content:space-between; align-items:center; padding:0 20px; z-index:1000; box-shadow:0 2px 8px rgba(0,0,0,0.2); font-family:'Poppins', sans-serif; }
+        .top-bar .left,.top-bar .right { display:flex; align-items:center; gap:10px; font-weight:bold; }
+        .sidebar { position:fixed; top:60px; left:0; width:70px; height:calc(100% - 60px); background:#7c5c6f; display:flex; flex-direction:column; align-items:flex-start; padding-top:20px; transition:width 0.3s; overflow:hidden; box-shadow:2px 0 8px rgba(0,0,0,0.2); }
+        .sidebar:hover { width:220px; }
+        .sidebar a { display:flex; align-items:center; gap:10px; color:white; text-decoration:none; padding:15px; width:100%; transition:background-color 0.3s; border-radius:5px; font-family:'Poppins', sans-serif; }
+        .sidebar a:hover { background:#8A496B; }
+        .sidebar a.active { background:#7c5c6f; font-weight:bold; }
+        .sidebar i { font-size:20px; }
+        .sidebar span { display:none; font-weight:bold; }
+        .sidebar:hover span { display:inline; }
+        .sidebar:hover~.dashboard { margin-left:220px; }
+        .dashboard { margin-top:80px; margin-left:90px; padding:20px; height:calc(100% - 200px); display:flex; flex-direction:column; transition:margin-left 0.3s; }
+        .dashboard-header { margin-bottom:20px; font-size:26px; font-weight:bold; color:#7c5c6f; text-align:center; font-family:'Poppins', sans-serif; }
+        .filters { display:flex; gap:20px; margin-bottom:20px; justify-content:center; align-items:center; }
+        .filters label { font-weight:bold; color:#7c5c6f; margin-right:5px; }
+        .filters select,.filters input { padding:8px; border:1px solid #dabfd4; border-radius:6px; }
+        .required::after { content:" *"; color:red; }
+        .timeslot-container { flex-grow:1; overflow-y:auto; padding:10px; background:rgba(255,255,255,0.8); border-radius:8px; }
+        table { width:100%; border-collapse:collapse; }
+        th,td { border:1px solid #dabfd4; padding:10px; text-align:left; }
+        th { background:#8A496B; color:white; font-family:'Poppins', sans-serif; }
+        td.time-col { width:120px; font-weight:bold; }
+        td.slot { cursor:pointer; }
+        td.slot:hover { background:#dabfd4; }
+        table.disabled th, table.disabled td { background:#e0e0e0 !important; color:#757575; pointer-events:none; }
+        tr.complete-row td { background:#cce5ff; }
+        tr.pending-row td { background:#fff3cd; }
+        tr.reserved-row td { background:#f8d7da; }
+        .back-link { position:fixed; bottom:20px; left:90px; color:#7c5c6f; font-family:'Poppins', sans-serif; text-decoration:none; font-weight:bold; display:flex; align-items:center; gap:6px; transition:left 0.3s; }
+        .back-link:hover { text-decoration:underline; }
+        .sidebar:hover~.back-link { left:240px; }
+        .legend { position:fixed; bottom:20px; right:20px; display:flex; gap:15px; font-family:'Poppins', sans-serif; }
+        .legend span { display:flex; align-items:center; gap:5px; font-weight:bold; }
+        .context-menu { position:absolute; display:none; background:white; border:1px solid #ccc; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.2); z-index:2000; }
+        .context-menu ul { list-style:none; margin:0; padding:5px 0; }
+        .context-menu ul li { padding:8px 15px; cursor:pointer; }
+        .context-menu ul li:hover { background:#f1f1f1; }
+        .modal { display:none; position:fixed; z-index:3000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); }
+        .modal-content { background:#fff; margin:5% auto; padding:20px; border-radius:8px; width:420px; box-shadow:0 4px 12px rgba(0,0,0,0.3); }
+        .close { float:right; font-size:24px; cursor:pointer; }
+        .modal-content label { display:block; margin-top:10px; font-weight:bold; color:#7c5c6f; }
+        .modal-content input, .modal-content textarea, .modal-content select { width:100%; padding:8px; margin-top:5px; border:1px solid #dabfd4; border-radius:6px; }
+        .modal-content button { margin-top:15px; padding:10px; background:#8A496B; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+        .modal-content button:hover { background:#8A496B; }
+      </style>
+    </head>
+    <body>
+      <div class="top-bar">
+        <div class="left"><i class="fas fa-user-shield"></i><strong>Admin</strong></div>
+        <div class="right"><i class="fas fa-hospital"></i><strong>SalamatDoc Hospital</strong></div>
+      </div>
+
+      <div class="sidebar">
+        <a href="#admindashboard" class="active"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+        <a href="#"><i class="fas fa-cogs"></i><span>System Control</span></a>
+        <a href="#"><i class="fas fa-user-cog"></i><span>Account Settings</span></a>
+        <a href="#login"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+      </div>
+
+      <div class="dashboard">
+        <div class="dashboard-header">Doctor's Appointment</div>
+
+        <div class="filters">
+          <div><label for="specialty">Specialty:</label>
+            <select id="specialty">
+              <option value="">Select...</option>
+              <option>Cardiology</option>
+              <option>Dermatology</option>
+            </select>
+          </div>
+          <div><label for="doctor">Doctor/Clinic:</label>
+            <select id="doctor">
+              <option value="">Select...</option>
+              <option>Dr. Adams</option>
+              <option>Dr. Rivera</option>
+            </select>
+          </div>
+          <div><label for="date" class="required">Date:</label>
+            <input type="date" id="date">
+          </div>
+        </div>
+
+        <div class="timeslot-container">
+          <table id="timeslotTable">
+            <thead>
+              <tr><th>Time</th><th>Appointment Details</th></tr>
+            </thead>
+            <tbody>
+              <tr class="complete-row"><td class="time-col">07:00 - 08:00</td><td class="slot" data-time="07:00"></td></tr>
+              <tr class="reserved-row"><td class="time-col">08:00 - 09:00</td><td class="slot" data-time="08:00"></td></tr>
+              <tr><td class="time-col">09:00 - 10:00</td><td class="slot" data-time="09:00"></td></tr>
+              <tr><td class="time-col">10:00 - 11:00</td><td class="slot" data-time="10:00"></td></tr>
+              <tr><td class="time-col">11:00 - 12:00</td><td class="slot" data-time="11:00"></td></tr>
+              <tr><td class="time-col">12:00 - 13:00</td><td class="slot" data-time="12:00"></td></tr>
+              <tr><td class="time-col">13:00 - 14:00</td><td class="slot" data-time="13:00"></td></tr>
+              <tr><td class="time-col">14:00 - 15:00</td><td class="slot" data-time="14:00"></td></tr>
+              <tr><td class="time-col">15:00 - 16:00</td><td class="slot" data-time="15:00"></td></tr>
+              <tr><td class="time-col">16:00 - 17:00</td><td class="slot" data-time="16:00"></td></tr>
+              <tr><td class="time-col">17:00 - 18:00</td><td class="slot" data-time="17:00"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <a href="#admindashboard" class="back-link"><i class="fas fa-arrow-left"></i><span>Back</span></a>
+
+      <div class="legend">
+        <span><i class="fas fa-square" style="color:#cce5ff;"></i> Complete</span>
+        <span><i class="fas fa-square" style="color:#fff3cd;"></i> Pending</span>
+        <span><i class="fas fa-square" style="color:#f8d7da;"></i> Reserved</span>
+      </div>
+
+      <div class="context-menu" id="contextMenu">
+        <ul>
+          <li id="viewAppointment">View Appointment</li>
+          <li id="newAppointment">New</li>
+        </ul>
+      </div>
+
+      <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+          <span id="closeModal" class="close">&times;</span>
+          <h2>New Appointment</h2>
+          <form id="appointmentForm">
+            <p><strong>Date:</strong> <span id="appointmentDate"></span></p>
+            <p><strong>Timeslot:</strong> <span id="appointmentTimeslot"></span></p>
+            <label>Patient Name:</label>
+            <input type="text" id="patientName" required>
+            <label>Doctor:</label>
+            <select id="doctorDropdown" required>
+              <option value="">Select Doctor...</option>
+              <option>Dr. Adams</option>
+              <option>Dr. Rivera</option>
+            </select>
+            <label>Mobile Number:</label>
+            <input type="text" id="mobileNumber" required>
+            <label>Notes:</label>
+            <textarea id="notes"></textarea>
+            <button type="submit">Save Appointment</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="viewModal" class="modal">
+        <div class="modal-content">
+          <span id="closeViewModal" class="close">&times;</span>
+          <h2>Appointment Details</h2>
+          <p><strong>Date:</strong> <span id="viewDate"></span></p>
+          <p><strong>Timeslot:</strong> <span id="viewTimeslot"></span></p>
+          <p><strong>Patient:</strong> <span id="viewPatient"></span></p>
+          <p><strong>Doctor:</strong> <span id="viewDoctor"></span></p>
+          <p><strong>Mobile:</strong> <span id="viewMobile"></span></p>
+          <p><strong>Notes:</strong> <span id="viewNotes"></span></p>
+          <label>Status:</label>
+          <select id="viewStatus">
+            <option value="complete">Complete</option>
+            <option value="reserved">Reserved</option>
+            <option value="pending">Pending</option>
+          </select>
+          <button id="updateStatus">Update Status</button>
+          <button id="cancelAppointment" style="background:#dc3545; margin-left:10px;">Cancel Appointment</button>
+        </div>
+      </div>
+
+      <script>
+        (function(){
+          const slots = document.querySelectorAll('.slot');
+          const contextMenu = document.getElementById('contextMenu');
+          const table = document.getElementById('timeslotTable');
+          const dateField = document.getElementById('date');
+          let currentSlot = null;
+
+          slots.forEach(slot => {
+            slot.addEventListener('contextmenu', function (e) {
+              e.preventDefault();
+              currentSlot = slot;
+              contextMenu.style.display = 'block';
+              contextMenu.style.top = e.pageY + 'px';
+              contextMenu.style.left = e.pageX + 'px';
+            });
+          });
+
+          document.addEventListener('click', () => contextMenu.style.display = 'none');
+
+          document.getElementById('viewAppointment').addEventListener('click', () => {
+            if (!currentSlot.dataset.patient) {
+              alert("No appointment scheduled for " + currentSlot.dataset.time);
+              return;
+            }
+            document.getElementById('viewDate').innerText = dateField.value;
+            document.getElementById('viewTimeslot').innerText = currentSlot.dataset.time;
+            document.getElementById('viewPatient').innerText = currentSlot.dataset.patient;
+            document.getElementById('viewDoctor').innerText = currentSlot.dataset.doctor;
+            document.getElementById('viewMobile').innerText = currentSlot.dataset.mobile;
+            document.getElementById('viewNotes').innerText = currentSlot.dataset.notes;
+            document.getElementById('viewModal').style.display = 'block';
+          });
+
+          document.getElementById('updateStatus').addEventListener('click', () => {
+            const status = document.getElementById('viewStatus').value;
+            currentSlot.parentElement.className = status + "-row";
+            alert("Status updated to " + status);
+          });
+
+          document.getElementById('cancelAppointment').addEventListener('click', () => {
+            if (confirm("Are you sure you want to cancel this appointment?")) {
+              currentSlot.innerHTML = "";
+              currentSlot.parentElement.className = "";
+              document.getElementById('viewModal').style.display = 'none';
+              alert("Appointment cancelled.");
+            }
+          });
+
+          document.getElementById('newAppointment').addEventListener('click', () => {
+            if (!dateField.value) {
+              alert("Please select a date before creating an appointment.");
+              return;
+            }
+            document.getElementById('appointmentDate').innerText = dateField.value;
+            document.getElementById('appointmentTimeslot').innerText = currentSlot.dataset.time;
+            document.getElementById('appointmentModal').style.display = 'block';
+          });
+
+          document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('appointmentModal').style.display = 'none';
+          });
+          document.getElementById('closeViewModal').addEventListener('click', () => {
+            document.getElementById('viewModal').style.display = 'none';
+          });
+
+          document.getElementById('appointmentForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const patient = document.getElementById('patientName').value;
+            const doctor = document.getElementById('doctorDropdown').value;
+            const mobile = document.getElementById('mobileNumber').value;
+            const notes = document.getElementById('notes').value;
+
+            currentSlot.dataset.patient = patient;
+            currentSlot.dataset.doctor = doctor;
+            currentSlot.dataset.mobile = mobile;
+            currentSlot.dataset.notes = notes;
+
+            currentSlot.innerHTML = "Patient: " + patient + "<br>Status: Pending";
+            currentSlot.parentElement.className = "pending-row";
+            document.getElementById('appointmentModal').style.display = 'none';
+          });
+
+          function updateTimeslotState() {
+            if (!dateField.value) {
+              table.classList.add("disabled");
+              slots.forEach(slot => {
+                slot.innerHTML = "";
+                slot.dataset.patient = "";
+                slot.dataset.doctor = "";
+                slot.dataset.mobile = "";
+                slot.dataset.notes = "";
+              });
+            } else {
+              table.classList.remove("disabled");
+              const slot7 = document.querySelector('[data-time="07:00"]');
+              slot7.dataset.patient = "John Doe";
+              slot7.dataset.doctor = "Dr. Adams";
+              slot7.dataset.mobile = "09123456789";
+              slot7.dataset.notes = "Follow-up";
+              slot7.innerHTML = "Patient: John Doe<br>Status: Complete";
+
+              const slot8 = document.querySelector('[data-time="08:00"]');
+              slot8.dataset.patient = "Jane Smith";
+              slot8.dataset.doctor = "Dr. Rivera";
+              slot8.dataset.mobile = "09987654321";
+              slot8.dataset.notes = "Initial consult";
+              slot8.innerHTML = "Patient: Jane Smith<br>Status: Reserved";
+            }
+          }
+
+          dateField.addEventListener('change', updateTimeslotState);
+          updateTimeslotState();
+
+          window.onclick = function (event) {
+            const modal1 = document.getElementById('appointmentModal');
+            const modal2 = document.getElementById('viewModal');
+            if (event.target === modal1) modal1.style.display = "none";
+            if (event.target === modal2) modal2.style.display = "none";
+          }
+        })();
+      </script>
+    </body>
+    </html>
+  </section>
+
+  <!-- ======================= The remaining views (emergency-queue, medicalrecords, medicine, mypatients, patient-registration, profilemanagement, signup) ======================= -->
+  <!--
+    IMPORTANT:
+    - The codebase contains these files, but in this response I only generated the index.html fully up to the views above due to size limits.
+    - If you want the rest added into the same index.html, I will append the remaining views in the next message(s) until all are included.
+  -->
+
+  <section class="view" id="view-patient-registration" data-view="patient-registration">TODO</section>
+  <section class="view" id="view-profilemanagement" data-view="profilemanagement">TODO</section>
+  <section class="view" id="view-medicalrecords" data-view="medicalrecords">TODO</section>
+  <section class="view" id="view-medicine" data-view="medicine">TODO</section>
+  <section class="view" id="view-mypatients" data-view="mypatients">TODO</section>
+  <section class="view" id="view-emergency-queue" data-view="emergency-queue">TODO</section>
+  <section class="view" id="view-signup" data-view="signup">TODO</section>
+
+  <!-- ======================= Router (hash navigation) ======================= -->
+  <script>
+    window.__go = function(view){
+      location.hash = view;
+    };
+
+    (function(){
+      const normalize = (h) => (h || '').replace('#','').trim();
+      const show = (view) => {
+        const views = document.querySelectorAll('.view');
+        views.forEach(v => v.classList.toggle('active', v.dataset.view === view));
+      };
+
+      function route(){
+        const view = normalize(location.hash) || 'login';
+        const exists = document.querySelector(`.view[data-view="${view}"]`);
+        show(exists ? view : 'login');
+      }
+
+      window.addEventListener('hashchange', route);
+      route();
+    })();
+  </script>
+</body>
+</html>
+
