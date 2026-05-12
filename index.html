@@ -1,165 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SalamatDoc Hospital Management System</title>
-  
-  <!-- External Links -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&family=Poppins:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- styles.css (empty but included for future use) -->
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #f4f7f6;
+            --dark: #2c3e50;
+        }
 
-  <style>
-    /* ==================== GLOBAL STYLES ==================== */
-    body {
-      margin: 0;
-      font-family: 'Open Sans', sans-serif;
-      background: linear-gradient(to right, #dabfd4, #7c5c6f);
-      height: 100vh;
-      overflow: hidden;
-    }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--light); color: var(--dark); display: flex; height: 100vh; overflow: hidden; }
 
-    .page {
-      display: none;
-      height: 100vh;
-      overflow-y: auto;
-    }
+        /* Login Screen */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary); display: flex; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .login-card {
+            background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 350px; text-align: center;
+        }
+        .login-card h2 { margin-bottom: 1.5rem; color: var(--primary); }
+        .login-card select, .login-card input { width: 100%; padding: 10px; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px; }
+        .login-card button { width: 100%; padding: 10px; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-    .page.active {
-      display: block;
-    }
+        /* Main Layout */
+        #sidebar { width: 250px; background: var(--primary); color: white; display: none; flex-direction: column; padding: 1rem; }
+        #sidebar h2 { font-size: 1.2rem; margin-bottom: 2rem; border-bottom: 1px solid #555; padding-bottom: 10px; }
+        .nav-btn { background: none; border: none; color: white; text-align: left; padding: 12px; cursor: pointer; border-radius: 4px; margin-bottom: 5px; transition: 0.3s; }
+        .nav-btn:hover, .nav-btn.active { background: var(--secondary); }
+        #logout-btn { margin-top: auto; background: var(--danger); }
 
-    /* You can put common styles here if needed */
-  </style>
+        main { flex: 1; padding: 2rem; overflow-y: auto; display: none; }
+        .view { display: none; animation: fadeIn 0.3s ease; }
+        .view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* UI Elements */
+        h1 { margin-bottom: 1.5rem; color: var(--primary); }
+        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        table th { background: #f8f9fa; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .badge-occupied { background: var(--danger); color: white; }
+        .badge-available { background: var(--success); color: white; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .btn-action { background: var(--secondary); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
+    </style>
 </head>
 <body>
 
-  <!-- ==================== LOGIN PAGE ==================== -->
-  <div id="login-page" class="page active">
-    <div class="login-container">
-      <h2>Login</h2>
-      <div class="role-container">
-        <button type="button" onclick="selectRole(this, 'Doctor')">Doctor</button>
-        <button type="button" onclick="selectRole(this, 'Patients')">Patients</button>
-        <button type="button" onclick="selectRole(this, 'Nurse')">Nurse</button>
-        <button type="button" onclick="selectRole(this, 'Admin')">Admin</button>
-      </div>   
-      <form id="loginForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" required>
-        <button type="submit">Login</button>
-      </form>
-      <div class="extra-links">
-        <a href="#" onclick="showPage('signup-page')">Sign Up</a>
-        <a href="#" onclick="showPage('forgot-page')">Forgot Password?</a>
-      </div>
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <div class="login-card">
+            <h2>HMS Login</h2>
+            <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Select role to enter system</p>
+            <select id="role-select">
+                <option value="Admin">Administrator</option>
+                <option value="Doctor">Doctor</option>
+                <option value="Nurse">Nurse</option>
+                <option value="Patient">Patient</option>
+            </select>
+            <input type="password" placeholder="Password" value="12345">
+            <button onclick="login()">Access System</button>
+        </div>
     </div>
-  </div>
 
-  <!-- ==================== SIGNUP PAGE ==================== -->
-  <div id="signup-page" class="page">
-    <!-- Paste full content of signup.html here (same as original) -->
-    <div class="login-container">
-      <h2>Sign Up</h2>
-      <div class="role-container">
-        <button type="button" onclick="selectRole(this, 'Doctor')">Doctor</button>
-        <button type="button" onclick="selectRole(this, 'Patients')">Patients</button>
-        <button type="button" onclick="selectRole(this, 'Nurse')">Nurse</button>
-        <button type="button" onclick="selectRole(this, 'Admin')">Admin</button>
-      </div>   
-      <form id="signupForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" required>
-        <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" required>
-        <button type="submit">Sign Up</button>
-      </form>
-    </div>
-  </div>
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar">
+        <h2 id="user-display">HMS Admin</h2>
+        <button class="nav-btn active" onclick="showView('dashboard-view')">Dashboard</button>
+        <button class="nav-btn role-admin role-nurse" onclick="showView('registration-view')">Patient Registration</button>
+        <button class="nav-btn role-admin role-doctor role-patient" onclick="showView('appointments-view')">Appointments</button>
+        <button class="nav-btn role-admin role-doctor" onclick="showView('consultation-view')">Doctor Consultation</button>
+        <button class="nav-btn role-admin role-nurse" onclick="showView('beds-view')">Beds/Ward Status</button>
+        <button class="nav-btn role-admin role-doctor role-nurse role-patient" onclick="showView('records-view')">Medical Records</button>
+        <button class="nav-btn role-admin role-nurse" onclick="showView('pharmacy-view')">Pharmacy/Inventory</button>
+        <button class="nav-btn role-admin role-nurse role-doctor" onclick="showView('er-view')">ER Queue</button>
+        <button id="logout-btn" class="nav-btn" onclick="logout()">Logout</button>
+    </nav>
 
-  <!-- ==================== FORGOT PASSWORD PAGE ==================== -->
-  <div id="forgot-page" class="page">
-    <div class="forgot-container">
-      <h2>Forgot Password</h2>
-      <form id="forgotForm">
-        <label for="email">Enter your email address:</label>
-        <input type="email" id="email" required>
-        <button type="submit">Reset Password</button>
-      </form>
-      <a href="#" onclick="showPage('login-page')" class="back-link">Back to Login</a>
-    </div>
-  </div>
+    <!-- Main Content -->
+    <main id="main-content">
+        
+        <!-- Dashboard / Overview -->
+        <div id="dashboard-view" class="view active">
+            <h1>System Overview</h1>
+            <div class="grid">
+                <div class="card"><h3>Total Patients</h3><p id="stat-patients" style="font-size: 2rem;">0</p></div>
+                <div class="card"><h3>Active Appointments</h3><p id="stat-appointments" style="font-size: 2rem;">0</p></div>
+                <div class="card"><h3>Available Beds</h3><p id="stat-beds" style="font-size: 2rem;">12/20</p></div>
+            </div>
+        </div>
 
-  <!-- ==================== ADMIN DASHBOARD ==================== -->
-  <div id="admin-dashboard" class="page">
-    <!-- Full admindashboard.html content would go here -->
-    <iframe srcdoc='<!-- Paste full admindashboard.html body content -->' style="width:100%; height:100%; border:none;"></iframe>
-  </div>
+        <!-- Patient Registration -->
+        <div id="registration-view" class="view">
+            <h1>Patient Registration</h1>
+            <div class="card">
+                <div class="grid">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="reg-name"></div>
+                    <div class="form-group"><label>Age</label><input type="number" id="reg-age"></div>
+                    <div class="form-group"><label>Gender</label>
+                        <select id="reg-gender"><option>Male</option><option>Female</option><option>Other</option></select>
+                    </div>
+                </div>
+                <button class="btn-action" onclick="registerPatient()">Register Patient</button>
+            </div>
+            <div class="card">
+                <h3>Registered Patients</h3>
+                <table id="patient-table">
+                    <thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
 
-  <!-- ==================== DOCTOR DASHBOARD ==================== -->
-  <div id="doctor-dashboard" class="page">
-    <!-- doctordashboard.html content -->
-  </div>
+        <!-- Appointment Scheduling -->
+        <div id="appointments-view" class="view">
+            <h1>Appointment Dashboard</h1>
+            <div class="card role-admin role-patient">
+                <h3>Schedule New</h3>
+                <div class="grid">
+                    <div class="form-group"><label>Patient Name</label><input type="text" id="app-name"></div>
+                    <div class="form-group"><label>Date</label><input type="date" id="app-date"></div>
+                    <div class="form-group"><label>Department</label>
+                        <select id="app-dept"><option>General</option><option>Cardiology</option><option>Pediatrics</option></select>
+                    </div>
+                </div>
+                <button class="btn-action" onclick="scheduleApp()">Book Appointment</button>
+            </div>
+            <div class="card">
+                <table id="app-table">
+                    <thead><tr><th>Patient</th><th>Date</th><th>Department</th><th>Status</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
 
-  <!-- Add other pages similarly: bed-appointment, consultation, emergency-queue, medicalrecords, medicine, mypatients, patient-registration, profilemanagement -->
+        <!-- Doctor Consultation -->
+        <div id="consultation-view" class="view">
+            <h1>Doctor Consultation Interface</h1>
+            <div class="card">
+                <h3>Today's Patient List</h3>
+                <table id="consult-table">
+                    <thead><tr><th>Patient</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody>
+                        <tr><td>John Doe</td><td><span class="badge badge-available">Waiting</span></td><td><button class="btn-action" onclick="alert('Opening Consultation...')">Consult</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-  <script>
-    // Role selection (shared)
-    let selectedRole = "";
-    function selectRole(button, role) {
-      selectedRole = role;
-      document.querySelectorAll('.role-container button').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      button.classList.add('active');
-    }
+        <!-- Bed Occupancy -->
+        <div id="beds-view" class="view">
+            <h1>Bed/Ward Occupancy</h1>
+            <div class="grid" id="bed-grid">
+                <!-- Beds generated by JS -->
+            </div>
+        </div>
 
-    // Page Navigation
-    function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-      const targetPage = document.getElementById(pageId);
-      if (targetPage) targetPage.classList.add('active');
-    }
+        <!-- Medical Records -->
+        <div id="records-view" class="view">
+            <h1>Medical Records Viewer</h1>
+            <div class="card">
+                <input type="text" placeholder="Search by Patient ID or Name..." style="margin-bottom: 1rem;">
+                <table id="records-table">
+                    <thead><tr><th>Patient</th><th>Diagnosis</th><th>Date</th><th>Doctor</th></tr></thead>
+                    <tbody>
+                        <tr><td>Jane Smith</td><td>Common Flu</td><td>2023-10-01</td><td>Dr. Wilson</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    // Login & Signup Form Handling
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      if (!selectedRole) {
-        alert("Please select a role before logging in.");
-        return;
-      }
-      if (selectedRole === "Admin") showPage('admin-dashboard');
-      else if (selectedRole === "Doctor") showPage('doctor-dashboard');
-      else if (selectedRole === "Nurse") showPage('admin-dashboard');
-      else if (selectedRole === "Patients") alert("Patients dashboard not yet implemented.");
-    });
+        <!-- Pharmacy/Inventory -->
+        <div id="pharmacy-view" class="view">
+            <h1>Pharmacy & Inventory</h1>
+            <div class="card">
+                <table id="inventory-table">
+                    <thead><tr><th>Item Name</th><th>Stock</th><th>Category</th><th>Action</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
 
-    document.getElementById("signupForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      if (!selectedRole) {
-        alert("Please select a role before signing up.");
-        return;
-      }
-      // Same navigation as login
-      if (selectedRole === "Admin") showPage('admin-dashboard');
-      else if (selectedRole === "Doctor") showPage('doctor-dashboard');
-      else if (selectedRole === "Nurse") showPage('admin-dashboard');
-      else if (selectedRole === "Patients") alert("Patients dashboard not yet implemented.");
-    });
+        <!-- Emergency Room Queue -->
+        <div id="er-view" class="view">
+            <h1>ER Queue System</h1>
+            <div class="card">
+                <div class="form-group">
+                    <label>Add Emergency Patient</label>
+                    <input type="text" id="er-input" placeholder="Enter patient name">
+                    <button class="btn-action" style="margin-top: 10px;" onclick="addToER()">Add to Queue</button>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Active Queue</h3>
+                <ol id="er-list" style="padding-left: 20px;"></ol>
+            </div>
+        </div>
 
-    // Forgot password form
-    document.getElementById("forgotForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      alert("Password reset link has been sent to your email!");
-      showPage('login-page');
-    });
-  </script>
+    </main>
+
+    <script>
+        // --- DATA STATE ---
+        let state = {
+            patients: [
+                {id: 1, name: "Alice Johnson", age: 29, gender: "Female"},
+                {id: 2, name: "Bob Smith", age: 45, gender: "Male"}
+            ],
+            appointments: [
+                {name: "Alice Johnson", date: "2023-10-25", dept: "Cardiology", status: "Confirmed"}
+            ],
+            beds: Array.from({length: 12}, (_, i) => ({id: i+1, occupied: Math.random() > 0.5})),
+            inventory: [
+                {name: "Paracetamol", stock: 500, cat: "Medicine"},
+                {name: "Insulin", stock: 45, cat: "Critical"},
+                {name: "Surgical Masks", stock: 1200, cat: "Supplies"}
+            ],
+            erQueue: ["Mark Evans", "Sarah Connor"]
+        };
+
+        let currentUserRole = "Admin";
+
+        // --- AUTH LOGIC ---
+        function login() {
+            currentUserRole = document.getElementById('role-select').value;
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'flex';
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('user-display').innerText = `HMS ${currentUserRole}`;
+            
+            // Filter Sidebar buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.id === 'logout-btn') return;
+                const roleClass = `role-${currentUserRole.toLowerCase()}`;
+                if (currentUserRole === 'Admin' || btn.classList.contains(roleClass)) {
+                    btn.style.display = 'block';
+                } else {
+                    btn.style.display = 'none';
+                }
+            });
+
+            renderAll();
+        }
+
+        function logout() {
+            location.reload();
+        }
+
+        // --- NAVIGATION ---
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // --- CORE FUNCTIONS ---
+        function registerPatient() {
+            const name = document.getElementById('reg-name').value;
+            const age = document.getElementById('reg-age').value;
+            const gender = document.getElementById('reg-gender').value;
+
+            if(!name || !age) return alert("Please fill all fields");
+
+            state.patients.push({id: state.patients.length + 1, name, age, gender});
+            renderPatients();
+            updateStats();
+            alert("Patient Registered!");
+        }
+
+        function scheduleApp() {
+            const name = document.getElementById('app-name').value;
+            const date = document.getElementById('app-date').value;
+            const dept = document.getElementById('app-dept').value;
+
+            if(!name || !date) return alert("Fill fields");
+
+            state.appointments.push({name, date, dept, status: "Pending"});
+            renderAppointments();
+            updateStats();
+        }
+
+        function addToER() {
+            const name = document.getElementById('er-input').value;
+            if(name) {
+                state.erQueue.push(name);
+                renderER();
+                document.getElementById('er-input').value = "";
+            }
+        }
+
+        function toggleBed(id) {
+            const bed = state.beds.find(b => b.id === id);
+            bed.occupied = !bed.occupied;
+            renderBeds();
+            updateStats();
+        }
+
+        // --- RENDERING ENGINE ---
+        function renderAll() {
+            renderPatients();
+            renderAppointments();
+            renderBeds();
+            renderInventory();
+            renderER();
+            updateStats();
+        }
+
+        function renderPatients() {
+            const tbody = document.querySelector('#patient-table tbody');
+            tbody.innerHTML = state.patients.map(p => 
+                `<tr><td>#${p.id}</td><td>${p.name}</td><td>${p.age}</td><td>${p.gender}</td></tr>`
+            ).join('');
+        }
+
+        function renderAppointments() {
+            const tbody = document.querySelector('#app-table tbody');
+            tbody.innerHTML = state.appointments.map(a => 
+                `<tr><td>${a.name}</td><td>${a.date}</td><td>${a.dept}</td><td><span class="badge badge-available">${a.status}</span></td></tr>`
+            ).join('');
+        }
+
+        function renderBeds() {
+            const grid = document.getElementById('bed-grid');
+            grid.innerHTML = state.beds.map(b => `
+                <div class="card" style="text-align:center; border-top: 5px solid ${b.occupied ? 'red' : 'green'}">
+                    <h4>Bed ${b.id}</h4>
+                    <span class="badge ${b.occupied ? 'badge-occupied' : 'badge-available'}">
+                        ${b.occupied ? 'Occupied' : 'Available'}
+                    </span>
+                    <br><br>
+                    <button class="btn-action" onclick="toggleBed(${b.id})">Toggle Status</button>
+                </div>
+            `).join('');
+        }
+
+        function renderInventory() {
+            const tbody = document.querySelector('#inventory-table tbody');
+            tbody.innerHTML = state.inventory.map(i => 
+                `<tr><td>${i.name}</td><td>${i.stock}</td><td>${i.cat}</td><td><button onclick="alert('Order Sent')">Restock</button></td></tr>`
+            ).join('');
+        }
+
+        function renderER() {
+            const list = document.getElementById('er-list');
+            list.innerHTML = state.erQueue.map((p, index) => 
+                `<li style="margin-bottom:10px;"><b>${p}</b> <button onclick="state.erQueue.splice(${index},1); renderER();" style="font-size:0.7rem;">Discharge/Move</button></li>`
+            ).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('stat-patients').innerText = state.patients.length;
+            document.getElementById('stat-appointments').innerText = state.appointments.length;
+            const avail = state.beds.filter(b => !b.occupied).length;
+            document.getElementById('stat-beds').innerText = `${avail}/${state.beds.length}`;
+        }
+    </script>
 </body>
 </html>
