@@ -3,151 +3,182 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SalamatDoc Hospital Management System</title>
+  <title>SalamatDoc Hospital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&family=Poppins:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* Combined global styles from all files */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    
     body {
-      font-family: 'Open Sans', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #dabfd4, #7c5c6f);
-      height: 100vh;
-      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
     }
-
-    .page {
-      display: none;
-      height: 100vh;
-      overflow-y: auto;
+    
+    .tail-container {
+      background: linear-gradient(135deg, #f3e7f0 0%, #e8d0e0 100%);
     }
-
-    .page.active {
-      display: block;
+    
+    .nav-link {
+      transition: all 0.3s ease;
     }
-
-    /* Include all individual styles from the files */
-    /* (All original <style> blocks from each file have been merged here) */
+    
+    .nav-link:hover {
+      transform: translateX(8px);
+    }
   </style>
 </head>
-<body>
+<body class="tail-container min-h-screen">
 
-  <!-- ==================== LOGIN PAGE ==================== -->
-  <div id="login-page" class="page active">
-    <!-- Full content of login.html pasted here -->
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Login</title>
-      <style>
-        /* Original login styles */
-        body { font-family: Arial, sans-serif; background: linear-gradient(to right, #dabfd4, #7c5c6f); margin:0; padding:0; display:flex; justify-content:center; align-items:center; height:100vh; }
-        .login-container { background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); width: 350px; text-align: center; }
-        /* ... rest of login styles ... */
-      </style>
-    </head>
-    <body>
-      <div class="login-container">
-        <h2>Login</h2>
-        <div class="role-container">
-          <button type="button" onclick="selectRole(this, 'Doctor')">Doctor</button>
-          <button type="button" onclick="selectRole(this, 'Patients')">Patients</button>
-          <button type="button" onclick="selectRole(this, 'Nurse')">Nurse</button>
-          <button type="button" onclick="selectRole(this, 'Admin')">Admin</button>
-        </div>   
-        
-        <form id="loginForm">
-          <label for="username">Username:</label>
-          <input type="text" id="username" name="username" required>
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" required>
-          <button type="submit">Login</button>
-        </form>
-        
-        <div class="extra-links">
-          <a href="#" onclick="showPage('signup-page')">Sign Up</a>
-          <a href="#" onclick="showPage('forgot-page')">Forgot Password?</a>
+  <div class="flex h-screen">
+
+    <!-- Sidebar -->
+    <div class="w-64 bg-[#7c5c6f] text-white flex flex-col">
+      <div class="p-6 border-b border-[#8A496B]">
+        <div class="flex items-center gap-3">
+          <i class="fas fa-hospital text-3xl"></i>
+          <div>
+            <h1 class="text-2xl font-bold">SalamatDoc</h1>
+            <p class="text-xs opacity-75">Hospital Management</p>
+          </div>
         </div>
       </div>
 
-      <script>
-        let selectedRole = "";
-        function selectRole(button, role) {
-          selectedRole = role;
-          document.querySelectorAll('.role-container button').forEach(btn => btn.classList.remove('active'));
-          button.classList.add('active');
-        }
+      <div class="flex-1 overflow-y-auto py-6 px-4">
+        <nav class="space-y-1">
+          <a href="#" onclick="showPage('dashboard')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B] active">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="#" onclick="showPage('patient-reg')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
+            <i class="fas fa-user-plus"></i>
+            <span>Patient Registration</span>
+          </a>
+          <a href="#" onclick="showPage('appointments')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
+            <i class="fas fa-calendar-check"></i>
+            <span>Appointments</span>
+          </a>
+          <a href="#" onclick="showPage('bed')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
+            <i class="fas fa-bed"></i>
+            <span>Bed Management</span>
+          </a>
+          <a href="#" onclick="showPage('records')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
+            <i class="fas fa-file-medical"></i>
+            <span>Medical Records</span>
+          </a>
+          <a href="#" onclick="showPage('pharmacy')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
+            <i class="fas fa-pills"></i>
+            <span>Pharmacy</span>
+          </a>
+          <a href="#" onclick="showPage('emergency')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
+            <i class="fas fa-ambulance"></i>
+            <span>Emergency Queue</span>
+          </a>
+        </nav>
+      </div>
 
-        document.getElementById("loginForm").addEventListener("submit", function(e) {
-          e.preventDefault();
-          if (selectedRole === "Admin") showPage('admin-dashboard');
-          else if (selectedRole === "Doctor") showPage('doctor-dashboard');
-          else if (selectedRole === "Nurse") showPage('admin-dashboard'); // placeholder
-          else if (selectedRole === "Patients") alert("Patients dashboard not yet implemented.");
-          else alert("Please select a role before logging in.");
-        });
-      </script>
-    </body>
-    </html>
+      <div class="p-4 border-t border-[#8A496B]">
+        <button onclick="logout()" 
+                class="w-full flex items-center justify-center gap-2 bg-[#8A496B] hover:bg-red-600 py-3 rounded-xl transition">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 overflow-y-auto">
+
+      <!-- Top Bar -->
+      <header class="bg-white shadow-sm border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-50">
+        <h2 id="page-title" class="text-2xl font-semibold text-[#7c5c6f]">Dashboard</h2>
+        <div class="flex items-center gap-4">
+          <div class="text-right">
+            <p class="font-medium text-gray-700">Dr. Maria Santos</p>
+            <p class="text-xs text-gray-500">Admin</p>
+          </div>
+          <div class="w-10 h-10 bg-[#8A496B] rounded-full flex items-center justify-center text-white font-bold">
+            MS
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content Container -->
+      <div class="p-8" id="content-area">
+        <!-- Pages will be loaded here via JS -->
+        <div id="dashboard" class="page-content">
+          <h1 class="text-4xl font-bold text-[#7c5c6f] mb-8">Welcome to SalamatDoc Hospital</h1>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Dashboard Cards -->
+            <div class="bg-white rounded-2xl shadow p-6 hover:shadow-xl transition">
+              <i class="fas fa-users text-4xl text-[#8A496B] mb-4"></i>
+              <p class="text-3xl font-bold">248</p>
+              <p class="text-gray-600">Total Patients Today</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow p-6 hover:shadow-xl transition">
+              <i class="fas fa-bed text-4xl text-[#8A496B] mb-4"></i>
+              <p class="text-3xl font-bold">87</p>
+              <p class="text-gray-600">Occupied Beds</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow p-6 hover:shadow-xl transition">
+              <i class="fas fa-calendar-check text-4xl text-[#8A496B] mb-4"></i>
+              <p class="text-3xl font-bold">42</p>
+              <p class="text-gray-600">Appointments Today</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow p-6 hover:shadow-xl transition">
+              <i class="fas fa-ambulance text-4xl text-red-500 mb-4"></i>
+              <p class="text-3xl font-bold">7</p>
+              <p class="text-gray-600">Emergency Cases</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Other pages (you can expand these) -->
+        <div id="patient-reg" class="page-content hidden">
+          <h1 class="text-3xl font-bold mb-6 text-[#7c5c6f]">Patient Registration</h1>
+          <!-- Add your registration form here -->
+          <p class="text-gray-600">Patient registration form goes here...</p>
+        </div>
+
+        <div id="appointments" class="page-content hidden">
+          <h1 class="text-3xl font-bold mb-6 text-[#7c5c6f]">Appointments & Consultation</h1>
+          <p class="text-gray-600">Appointments management...</p>
+        </div>
+
+        <!-- Add more pages as needed -->
+      </div>
+    </div>
   </div>
-
-  <!-- ==================== SIGNUP PAGE ==================== -->
-  <div id="signup-page" class="page">
-    <!-- Full signup.html content here (similar structure) -->
-    <!-- ... (omitted for brevity, same pattern) ... -->
-  </div>
-
-  <!-- ==================== FORGOT PASSWORD PAGE ==================== -->
-  <div id="forgot-page" class="page">
-    <!-- Full forgotpassword.html content -->
-  </div>
-
-  <!-- ==================== ADMIN DASHBOARD ==================== -->
-  <div id="admin-dashboard" class="page">
-    <!-- Full admindashboard.html content -->
-  </div>
-
-  <!-- ==================== OTHER PAGES (Doctor, Bed, Consultation, etc.) ==================== -->
-  <div id="doctor-dashboard" class="page"> <!-- doctordashboard.html --> </div>
-  <div id="bed-appointment-page" class="page"> <!-- bed-appointment.html --> </div>
-  <div id="consultation-page" class="page"> <!-- consultation.html --> </div>
-  <div id="emergency-queue-page" class="page"> <!-- emergency-queue.html --> </div>
-  <div id="medical-records-page" class="page"> <!-- medicalrecords.html --> </div>
-  <div id="medicine-page" class="page"> <!-- medicine.html --> </div>
-  <div id="mypatients-page" class="page"> <!-- mypatients.html --> </div>
-  <div id="patient-registration-page" class="page"> <!-- patient-registration.html --> </div>
-  <div id="profile-management-page" class="page"> <!-- profilemanagement.html --> </div>
 
   <script>
-    // Global page switcher
     function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
+      document.querySelectorAll('.page-content').forEach(page => {
+        page.classList.add('hidden');
       });
-      const target = document.getElementById(pageId);
-      if (target) target.classList.add('active');
+      const page = document.getElementById(pageId);
+      if (page) page.classList.remove('hidden');
+
+      // Update title
+      const titles = {
+        'dashboard': 'Dashboard',
+        'patient-reg': 'Patient Registration',
+        'appointments': 'Appointments',
+        'bed': 'Bed Management',
+        'records': 'Medical Records',
+        'pharmacy': 'Pharmacy',
+        'emergency': 'Emergency Queue'
+      };
+      document.getElementById('page-title').textContent = titles[pageId] || 'SalamatDoc';
     }
 
-    // Make all internal links work within single file
-    document.addEventListener('click', function(e) {
-      if (e.target.tagName === 'A' && e.target.getAttribute('href')) {
-        const href = e.target.getAttribute('href');
-        if (href.includes('admindashboard')) showPage('admin-dashboard');
-        if (href.includes('doctordashboard')) showPage('doctor-dashboard');
-        if (href.includes('bed-appointment')) showPage('bed-appointment-page');
-        if (href.includes('consultation')) showPage('consultation-page');
-        if (href.includes('emergency-queue')) showPage('emergency-queue-page');
-        if (href.includes('medicalrecords')) showPage('medical-records-page');
-        if (href.includes('medicine')) showPage('medicine-page');
-        if (href.includes('mypatients')) showPage('mypatients-page');
-        if (href.includes('patient-registration')) showPage('patient-registration-page');
-        if (href.includes('profilemanagement')) showPage('profile-management-page');
-        if (href.includes('login')) showPage('login-page');
+    function logout() {
+      if (confirm("Are you sure you want to logout?")) {
+        window.location.reload();
       }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      showPage('dashboard');
     });
   </script>
 </body>
