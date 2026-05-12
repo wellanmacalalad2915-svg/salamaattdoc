@@ -3,182 +3,162 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SalamatDoc Hospital</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>SalamatDoc Hospital Management System</title>
   
+  <!-- External Links -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&family=Poppins:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- styles.css (empty but included for future use) -->
+  <link rel="stylesheet" href="styles.css">
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-    
+    /* ==================== GLOBAL STYLES ==================== */
     body {
-      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(to right, #dabfd4, #7c5c6f);
+      height: 100vh;
+      overflow: hidden;
     }
-    
-    .tail-container {
-      background: linear-gradient(135deg, #f3e7f0 0%, #e8d0e0 100%);
+
+    .page {
+      display: none;
+      height: 100vh;
+      overflow-y: auto;
     }
-    
-    .nav-link {
-      transition: all 0.3s ease;
+
+    .page.active {
+      display: block;
     }
-    
-    .nav-link:hover {
-      transform: translateX(8px);
-    }
+
+    /* You can put common styles here if needed */
   </style>
 </head>
-<body class="tail-container min-h-screen">
+<body>
 
-  <div class="flex h-screen">
-
-    <!-- Sidebar -->
-    <div class="w-64 bg-[#7c5c6f] text-white flex flex-col">
-      <div class="p-6 border-b border-[#8A496B]">
-        <div class="flex items-center gap-3">
-          <i class="fas fa-hospital text-3xl"></i>
-          <div>
-            <h1 class="text-2xl font-bold">SalamatDoc</h1>
-            <p class="text-xs opacity-75">Hospital Management</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex-1 overflow-y-auto py-6 px-4">
-        <nav class="space-y-1">
-          <a href="#" onclick="showPage('dashboard')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B] active">
-            <i class="fas fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-          </a>
-          <a href="#" onclick="showPage('patient-reg')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
-            <i class="fas fa-user-plus"></i>
-            <span>Patient Registration</span>
-          </a>
-          <a href="#" onclick="showPage('appointments')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
-            <i class="fas fa-calendar-check"></i>
-            <span>Appointments</span>
-          </a>
-          <a href="#" onclick="showPage('bed')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
-            <i class="fas fa-bed"></i>
-            <span>Bed Management</span>
-          </a>
-          <a href="#" onclick="showPage('records')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
-            <i class="fas fa-file-medical"></i>
-            <span>Medical Records</span>
-          </a>
-          <a href="#" onclick="showPage('pharmacy')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
-            <i class="fas fa-pills"></i>
-            <span>Pharmacy</span>
-          </a>
-          <a href="#" onclick="showPage('emergency')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#8A496B]">
-            <i class="fas fa-ambulance"></i>
-            <span>Emergency Queue</span>
-          </a>
-        </nav>
-      </div>
-
-      <div class="p-4 border-t border-[#8A496B]">
-        <button onclick="logout()" 
-                class="w-full flex items-center justify-center gap-2 bg-[#8A496B] hover:bg-red-600 py-3 rounded-xl transition">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>Logout</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="flex-1 overflow-y-auto">
-
-      <!-- Top Bar -->
-      <header class="bg-white shadow-sm border-b border-gray-200 px-8 py-4 flex items-center justify-between sticky top-0 z-50">
-        <h2 id="page-title" class="text-2xl font-semibold text-[#7c5c6f]">Dashboard</h2>
-        <div class="flex items-center gap-4">
-          <div class="text-right">
-            <p class="font-medium text-gray-700">Dr. Maria Santos</p>
-            <p class="text-xs text-gray-500">Admin</p>
-          </div>
-          <div class="w-10 h-10 bg-[#8A496B] rounded-full flex items-center justify-center text-white font-bold">
-            MS
-          </div>
-        </div>
-      </header>
-
-      <!-- Page Content Container -->
-      <div class="p-8" id="content-area">
-        <!-- Pages will be loaded here via JS -->
-        <div id="dashboard" class="page-content">
-          <h1 class="text-4xl font-bold text-[#7c5c6f] mb-8">Welcome to SalamatDoc Hospital</h1>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Dashboard Cards -->
-            <div class="bg-white rounded-2xl shadow p-6 hover:shadow-xl transition">
-              <i class="fas fa-users text-4xl text-[#8A496B] mb-4"></i>
-              <p class="text-3xl font-bold">248</p>
-              <p class="text-gray-600">Total Patients Today</p>
-            </div>
-            <div class="bg-white rounded-2xl shadow p-6 hover:shadow-xl transition">
-              <i class="fas fa-bed text-4xl text-[#8A496B] mb-4"></i>
-              <p class="text-3xl font-bold">87</p>
-              <p class="text-gray-600">Occupied Beds</p>
-            </div>
-            <div class="bg-white rounded-2xl shadow p-6 hover:shadow-xl transition">
-              <i class="fas fa-calendar-check text-4xl text-[#8A496B] mb-4"></i>
-              <p class="text-3xl font-bold">42</p>
-              <p class="text-gray-600">Appointments Today</p>
-            </div>
-            <div class="bg-white rounded-2xl shadow p-6 hover:shadow-xl transition">
-              <i class="fas fa-ambulance text-4xl text-red-500 mb-4"></i>
-              <p class="text-3xl font-bold">7</p>
-              <p class="text-gray-600">Emergency Cases</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Other pages (you can expand these) -->
-        <div id="patient-reg" class="page-content hidden">
-          <h1 class="text-3xl font-bold mb-6 text-[#7c5c6f]">Patient Registration</h1>
-          <!-- Add your registration form here -->
-          <p class="text-gray-600">Patient registration form goes here...</p>
-        </div>
-
-        <div id="appointments" class="page-content hidden">
-          <h1 class="text-3xl font-bold mb-6 text-[#7c5c6f]">Appointments & Consultation</h1>
-          <p class="text-gray-600">Appointments management...</p>
-        </div>
-
-        <!-- Add more pages as needed -->
+  <!-- ==================== LOGIN PAGE ==================== -->
+  <div id="login-page" class="page active">
+    <div class="login-container">
+      <h2>Login</h2>
+      <div class="role-container">
+        <button type="button" onclick="selectRole(this, 'Doctor')">Doctor</button>
+        <button type="button" onclick="selectRole(this, 'Patients')">Patients</button>
+        <button type="button" onclick="selectRole(this, 'Nurse')">Nurse</button>
+        <button type="button" onclick="selectRole(this, 'Admin')">Admin</button>
+      </div>   
+      <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+        <button type="submit">Login</button>
+      </form>
+      <div class="extra-links">
+        <a href="#" onclick="showPage('signup-page')">Sign Up</a>
+        <a href="#" onclick="showPage('forgot-page')">Forgot Password?</a>
       </div>
     </div>
   </div>
 
+  <!-- ==================== SIGNUP PAGE ==================== -->
+  <div id="signup-page" class="page">
+    <!-- Paste full content of signup.html here (same as original) -->
+    <div class="login-container">
+      <h2>Sign Up</h2>
+      <div class="role-container">
+        <button type="button" onclick="selectRole(this, 'Doctor')">Doctor</button>
+        <button type="button" onclick="selectRole(this, 'Patients')">Patients</button>
+        <button type="button" onclick="selectRole(this, 'Nurse')">Nurse</button>
+        <button type="button" onclick="selectRole(this, 'Admin')">Admin</button>
+      </div>   
+      <form id="signupForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" required>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== FORGOT PASSWORD PAGE ==================== -->
+  <div id="forgot-page" class="page">
+    <div class="forgot-container">
+      <h2>Forgot Password</h2>
+      <form id="forgotForm">
+        <label for="email">Enter your email address:</label>
+        <input type="email" id="email" required>
+        <button type="submit">Reset Password</button>
+      </form>
+      <a href="#" onclick="showPage('login-page')" class="back-link">Back to Login</a>
+    </div>
+  </div>
+
+  <!-- ==================== ADMIN DASHBOARD ==================== -->
+  <div id="admin-dashboard" class="page">
+    <!-- Full admindashboard.html content would go here -->
+    <iframe srcdoc='<!-- Paste full admindashboard.html body content -->' style="width:100%; height:100%; border:none;"></iframe>
+  </div>
+
+  <!-- ==================== DOCTOR DASHBOARD ==================== -->
+  <div id="doctor-dashboard" class="page">
+    <!-- doctordashboard.html content -->
+  </div>
+
+  <!-- Add other pages similarly: bed-appointment, consultation, emergency-queue, medicalrecords, medicine, mypatients, patient-registration, profilemanagement -->
+
   <script>
-    function showPage(pageId) {
-      document.querySelectorAll('.page-content').forEach(page => {
-        page.classList.add('hidden');
+    // Role selection (shared)
+    let selectedRole = "";
+    function selectRole(button, role) {
+      selectedRole = role;
+      document.querySelectorAll('.role-container button').forEach(btn => {
+        btn.classList.remove('active');
       });
-      const page = document.getElementById(pageId);
-      if (page) page.classList.remove('hidden');
-
-      // Update title
-      const titles = {
-        'dashboard': 'Dashboard',
-        'patient-reg': 'Patient Registration',
-        'appointments': 'Appointments',
-        'bed': 'Bed Management',
-        'records': 'Medical Records',
-        'pharmacy': 'Pharmacy',
-        'emergency': 'Emergency Queue'
-      };
-      document.getElementById('page-title').textContent = titles[pageId] || 'SalamatDoc';
+      button.classList.add('active');
     }
 
-    function logout() {
-      if (confirm("Are you sure you want to logout?")) {
-        window.location.reload();
+    // Page Navigation
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+      const targetPage = document.getElementById(pageId);
+      if (targetPage) targetPage.classList.add('active');
+    }
+
+    // Login & Signup Form Handling
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      if (!selectedRole) {
+        alert("Please select a role before logging in.");
+        return;
       }
-    }
+      if (selectedRole === "Admin") showPage('admin-dashboard');
+      else if (selectedRole === "Doctor") showPage('doctor-dashboard');
+      else if (selectedRole === "Nurse") showPage('admin-dashboard');
+      else if (selectedRole === "Patients") alert("Patients dashboard not yet implemented.");
+    });
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      showPage('dashboard');
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      if (!selectedRole) {
+        alert("Please select a role before signing up.");
+        return;
+      }
+      // Same navigation as login
+      if (selectedRole === "Admin") showPage('admin-dashboard');
+      else if (selectedRole === "Doctor") showPage('doctor-dashboard');
+      else if (selectedRole === "Nurse") showPage('admin-dashboard');
+      else if (selectedRole === "Patients") alert("Patients dashboard not yet implemented.");
+    });
+
+    // Forgot password form
+    document.getElementById("forgotForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Password reset link has been sent to your email!");
+      showPage('login-page');
     });
   </script>
 </body>
