@@ -5,369 +5,1422 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital Management System</title>
     <style>
-        :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --success: #27ae60;
-            --danger: #e74c3c;
-            --warning: #f39c12;
-            --light: #f4f7f6;
-            --dark: #2c3e50;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-        body { background-color: var(--light); color: var(--dark); display: flex; height: 100vh; overflow: hidden; }
-
-        /* Login Screen */
-        #login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--primary); display: flex; justify-content: center; align-items: center; z-index: 1000;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
-        .login-card {
-            background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            width: 350px; text-align: center;
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
-        .login-card h2 { margin-bottom: 1.5rem; color: var(--primary); }
-        .login-card select, .login-card input { width: 100%; padding: 10px; margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 4px; }
-        .login-card button { width: 100%; padding: 10px; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-        /* Main Layout */
-        #sidebar { width: 250px; background: var(--primary); color: white; display: none; flex-direction: column; padding: 1rem; }
-        #sidebar h2 { font-size: 1.2rem; margin-bottom: 2rem; border-bottom: 1px solid #555; padding-bottom: 10px; }
-        .nav-btn { background: none; border: none; color: white; text-align: left; padding: 12px; cursor: pointer; border-radius: 4px; margin-bottom: 5px; transition: 0.3s; }
-        .nav-btn:hover, .nav-btn.active { background: var(--secondary); }
-        #logout-btn { margin-top: auto; background: var(--danger); }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
 
-        main { flex: 1; padding: 2rem; overflow-y: auto; display: none; }
-        .view { display: none; animation: fadeIn 0.3s ease; }
-        .view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
 
-        /* UI Elements */
-        h1 { margin-bottom: 1.5rem; color: var(--primary); }
-        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        table th { background: #f8f9fa; }
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
-        .badge-occupied { background: var(--danger); color: white; }
-        .badge-available { background: var(--success); color: white; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-        .btn-action { background: var(--secondary); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .login-container {
+            padding: 50px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .login-box {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .login-box h2 {
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            margin-top: 10px;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-small {
+            width: auto;
+            padding: 8px 16px;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .top-nav {
+            background: #2c3e50;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            padding: 8px 20px;
+            background: #e74c3c;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .main-content {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #34495e;
+            min-height: calc(100vh - 200px);
+            padding: 20px 0;
+        }
+
+        .sidebar-item {
+            padding: 15px 30px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-item:hover {
+            background: #2c3e50;
+        }
+
+        .sidebar-item.active {
+            background: #2c3e50;
+            border-left-color: #667eea;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 30px;
+            background: #ecf0f1;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-occupied {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin: 20px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .queue-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .queue-item.critical {
+            border-left-color: #e74c3c;
+            background: #fee;
+        }
+
+        .priority-high {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .priority-medium {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .priority-low {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Hospital Management System</h1>
+            <p>A centralized system for managing hospital operations and patient services</p>
+        </div>
 
-    <!-- Login Screen -->
-    <div id="login-screen">
-        <div class="login-card">
-            <h2>HMS Login</h2>
-            <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Select role to enter system</p>
-            <select id="role-select">
-                <option value="Admin">Administrator</option>
-                <option value="Doctor">Doctor</option>
-                <option value="Nurse">Nurse</option>
-                <option value="Patient">Patient</option>
-            </select>
-            <input type="password" placeholder="Password" value="12345">
-            <button onclick="login()">Access System</button>
+        <!-- Login Screen -->
+        <div id="loginScreen" class="login-container">
+            <div class="login-box">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>User Type</label>
+                        <select id="userType" required>
+                            <option value="">Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="doctor">Doctor</option>
+                            <option value="nurse">Nurse</option>
+                            <option value="patient">Patient</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="username" required placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" required placeholder="Enter password">
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+                <p style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
+                    Demo credentials: admin/admin, doctor/doctor, nurse/nurse, patient/patient
+                </p>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard">
+            <div class="top-nav">
+                <div class="user-info">
+                    <span id="welcomeMessage"></span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+
+            <div class="main-content">
+                <div class="sidebar">
+                    <div class="sidebar-item active" onclick="showSection('overview')">📊 Overview</div>
+                    <div class="sidebar-item" onclick="showSection('patients')">👥 Patient Management</div>
+                    <div class="sidebar-item" onclick="showSection('appointments')">📅 Appointments</div>
+                    <div class="sidebar-item" onclick="showSection('consultation')">🩺 Doctor Consultation</div>
+                    <div class="sidebar-item" onclick="showSection('beds')">🛏️ Bed/Ward Occupancy</div>
+                    <div class="sidebar-item" onclick="showSection('records')">📋 Medical Records</div>
+                    <div class="sidebar-item" onclick="showSection('pharmacy')">💊 Pharmacy/Inventory</div>
+                    <div class="sidebar-item" onclick="showSection('emergency')">🚨 Emergency Queue</div>
+                </div>
+
+                <div class="content-area">
+                    <!-- Overview Section -->
+                    <div id="overview" class="section active">
+                        <h2>Dashboard Overview</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h4>Total Patients</h4>
+                                <div class="number" id="totalPatients">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Today's Appointments</h4>
+                                <div class="number" id="todayAppointments">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Available Beds</h4>
+                                <div class="number" id="availableBeds">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Emergency Cases</h4>
+                                <div class="number" id="emergencyCases">0</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Recent Activity</h3>
+                            <div id="recentActivity"></div>
+                        </div>
+                    </div>
+
+                    <!-- Patient Management Section -->
+                    <div id="patients" class="section">
+                        <div class="card">
+                            <h3>Patient Registration and Profile Management</h3>
+                            <button class="btn btn-small btn-success" onclick="openModal('addPatientModal')">+ Add New Patient</button>
+                            
+                            <table id="patientsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Patient ID</th>
+                                        <th>Name</th>
+                                        <th>Age</th>
+                                        <th>Gender</th>
+                                        <th>Contact</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Appointments Section -->
+                    <div id="appointments" class="section">
+                        <div class="card">
+                            <h3>Appointment Scheduling Dashboard</h3>
+                            <button class="btn btn-small btn-success" onclick="openModal('addAppointmentModal')">+ Schedule Appointment</button>
+                            
+                            <table id="appointmentsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Appointment ID</th>
+                                        <th>Patient Name</th>
+                                        <th>Doctor</th>
+                                        <th>Date & Time</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Doctor Consultation Section -->
+                    <div id="consultation" class="section">
+                        <div class="card">
+                            <h3>Doctor Consultation Interface</h3>
+                            <table id="consultationTable">
+                                <thead>
+                                    <tr>
+                                        <th>Patient Name</th>
+                                        <th>Age</th>
+                                        <th>Appointment Time</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Bed/Ward Occupancy Section -->
+                    <div id="beds" class="section">
+                        <div class="card">
+                            <h3>Bed/Ward Occupancy Dashboard</h3>
+                            <button class="btn btn-small btn-success" onclick="openModal('addBedModal')">+ Add Bed</button>
+                            
+                            <table id="bedsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Bed Number</th>
+                                        <th>Ward</th>
+                                        <th>Status</th>
+                                        <th>Patient Name</th>
+                                        <th>Admitted Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Medical Records Section -->
+                    <div id="records" class="section">
+                        <div class="card">
+                            <h3>Medical Records Viewer</h3>
+                            <div class="form-group">
+                                <label>Search Patient</label>
+                                <input type="text" id="searchPatient" placeholder="Enter patient name or ID" onkeyup="searchMedicalRecords()">
+                            </div>
+                            <div id="medicalRecordsContent"></div>
+                        </div>
+                    </div>
+
+                    <!-- Pharmacy/Inventory Section -->
+                    <div id="pharmacy" class="section">
+                        <div class="card">
+                            <h3>Pharmacy/Inventory Tracking Panel</h3>
+                            <button class="btn btn-small btn-success" onclick="openModal('addMedicineModal')">+ Add Medicine</button>
+                            
+                            <table id="pharmacyTable">
+                                <thead>
+                                    <tr>
+                                        <th>Medicine Name</th>
+                                        <th>Category</th>
+                                        <th>Stock Quantity</th>
+                                        <th>Unit Price</th>
+                                        <th>Expiry Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Queue Section -->
+                    <div id="emergency" class="section">
+                        <div class="card">
+                            <h3>Emergency Room Queue System</h3>
+                            <button class="btn btn-small btn-danger" onclick="openModal('addEmergencyModal')">+ Add Emergency Case</button>
+                            
+                            <div id="emergencyQueue"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Sidebar Navigation -->
-    <nav id="sidebar">
-        <h2 id="user-display">HMS Admin</h2>
-        <button class="nav-btn active" onclick="showView('dashboard-view')">Dashboard</button>
-        <button class="nav-btn role-admin role-nurse" onclick="showView('registration-view')">Patient Registration</button>
-        <button class="nav-btn role-admin role-doctor role-patient" onclick="showView('appointments-view')">Appointments</button>
-        <button class="nav-btn role-admin role-doctor" onclick="showView('consultation-view')">Doctor Consultation</button>
-        <button class="nav-btn role-admin role-nurse" onclick="showView('beds-view')">Beds/Ward Status</button>
-        <button class="nav-btn role-admin role-doctor role-nurse role-patient" onclick="showView('records-view')">Medical Records</button>
-        <button class="nav-btn role-admin role-nurse" onclick="showView('pharmacy-view')">Pharmacy/Inventory</button>
-        <button class="nav-btn role-admin role-nurse role-doctor" onclick="showView('er-view')">ER Queue</button>
-        <button id="logout-btn" class="nav-btn" onclick="logout()">Logout</button>
-    </nav>
-
-    <!-- Main Content -->
-    <main id="main-content">
-        
-        <!-- Dashboard / Overview -->
-        <div id="dashboard-view" class="view active">
-            <h1>System Overview</h1>
-            <div class="grid">
-                <div class="card"><h3>Total Patients</h3><p id="stat-patients" style="font-size: 2rem;">0</p></div>
-                <div class="card"><h3>Active Appointments</h3><p id="stat-appointments" style="font-size: 2rem;">0</p></div>
-                <div class="card"><h3>Available Beds</h3><p id="stat-beds" style="font-size: 2rem;">12/20</p></div>
+    <!-- Modals -->
+    <!-- Add Patient Modal -->
+    <div id="addPatientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Patient</h3>
+                <span class="close-modal" onclick="closeModal('addPatientModal')">&times;</span>
             </div>
-        </div>
-
-        <!-- Patient Registration -->
-        <div id="registration-view" class="view">
-            <h1>Patient Registration</h1>
-            <div class="card">
-                <div class="grid">
-                    <div class="form-group"><label>Full Name</label><input type="text" id="reg-name"></div>
-                    <div class="form-group"><label>Age</label><input type="number" id="reg-age"></div>
-                    <div class="form-group"><label>Gender</label>
-                        <select id="reg-gender"><option>Male</option><option>Female</option><option>Other</option></select>
-                    </div>
-                </div>
-                <button class="btn-action" onclick="registerPatient()">Register Patient</button>
-            </div>
-            <div class="card">
-                <h3>Registered Patients</h3>
-                <table id="patient-table">
-                    <thead><tr><th>ID</th><th>Name</th><th>Age</th><th>Gender</th></tr></thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Appointment Scheduling -->
-        <div id="appointments-view" class="view">
-            <h1>Appointment Dashboard</h1>
-            <div class="card role-admin role-patient">
-                <h3>Schedule New</h3>
-                <div class="grid">
-                    <div class="form-group"><label>Patient Name</label><input type="text" id="app-name"></div>
-                    <div class="form-group"><label>Date</label><input type="date" id="app-date"></div>
-                    <div class="form-group"><label>Department</label>
-                        <select id="app-dept"><option>General</option><option>Cardiology</option><option>Pediatrics</option></select>
-                    </div>
-                </div>
-                <button class="btn-action" onclick="scheduleApp()">Book Appointment</button>
-            </div>
-            <div class="card">
-                <table id="app-table">
-                    <thead><tr><th>Patient</th><th>Date</th><th>Department</th><th>Status</th></tr></thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Doctor Consultation -->
-        <div id="consultation-view" class="view">
-            <h1>Doctor Consultation Interface</h1>
-            <div class="card">
-                <h3>Today's Patient List</h3>
-                <table id="consult-table">
-                    <thead><tr><th>Patient</th><th>Status</th><th>Action</th></tr></thead>
-                    <tbody>
-                        <tr><td>John Doe</td><td><span class="badge badge-available">Waiting</span></td><td><button class="btn-action" onclick="alert('Opening Consultation...')">Consult</button></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Bed Occupancy -->
-        <div id="beds-view" class="view">
-            <h1>Bed/Ward Occupancy</h1>
-            <div class="grid" id="bed-grid">
-                <!-- Beds generated by JS -->
-            </div>
-        </div>
-
-        <!-- Medical Records -->
-        <div id="records-view" class="view">
-            <h1>Medical Records Viewer</h1>
-            <div class="card">
-                <input type="text" placeholder="Search by Patient ID or Name..." style="margin-bottom: 1rem;">
-                <table id="records-table">
-                    <thead><tr><th>Patient</th><th>Diagnosis</th><th>Date</th><th>Doctor</th></tr></thead>
-                    <tbody>
-                        <tr><td>Jane Smith</td><td>Common Flu</td><td>2023-10-01</td><td>Dr. Wilson</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Pharmacy/Inventory -->
-        <div id="pharmacy-view" class="view">
-            <h1>Pharmacy & Inventory</h1>
-            <div class="card">
-                <table id="inventory-table">
-                    <thead><tr><th>Item Name</th><th>Stock</th><th>Category</th><th>Action</th></tr></thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Emergency Room Queue -->
-        <div id="er-view" class="view">
-            <h1>ER Queue System</h1>
-            <div class="card">
+            <form id="addPatientForm">
                 <div class="form-group">
-                    <label>Add Emergency Patient</label>
-                    <input type="text" id="er-input" placeholder="Enter patient name">
-                    <button class="btn-action" style="margin-top: 10px;" onclick="addToER()">Add to Queue</button>
+                    <label>Full Name</label>
+                    <input type="text" id="patientName" required>
                 </div>
-            </div>
-            <div class="card">
-                <h3>Active Queue</h3>
-                <ol id="er-list" style="padding-left: 20px;"></ol>
-            </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" id="patientAge" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="patientGender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="tel" id="patientContact" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="patientEmail">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="patientAddress" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select id="patientBlood">
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Add Patient</button>
+            </form>
         </div>
+    </div>
 
-    </main>
+    <!-- Add Appointment Modal -->
+    <div id="addAppointmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Schedule Appointment</h3>
+                <span class="close-modal" onclick="closeModal('addAppointmentModal')">&times;</span>
+            </div>
+            <form id="addAppointmentForm">
+                <div class="form-group">
+                    <label>Select Patient</label>
+                    <select id="appointmentPatient" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Select Doctor</label>
+                    <select id="appointmentDoctor" required>
+                        <option>Dr. Sarah Johnson - Cardiologist</option>
+                        <option>Dr. Michael Chen - Neurologist</option>
+                        <option>Dr. Emily Davis - Pediatrician</option>
+                        <option>Dr. James Wilson - Orthopedic</option>
+                        <option>Dr. Maria Garcia - Dermatologist</option>
+                    </select>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="appointmentDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="time" id="appointmentTime" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Reason for Visit</label>
+                    <textarea id="appointmentReason" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn">Schedule Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Bed Modal -->
+    <div id="addBedModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Bed</h3>
+                <span class="close-modal" onclick="closeModal('addBedModal')">&times;</span>
+            </div>
+            <form id="addBedForm">
+                <div class="form-group">
+                    <label>Bed Number</label>
+                    <input type="text" id="bedNumber" required>
+                </div>
+                <div class="form-group">
+                    <label>Ward</label>
+                    <select id="bedWard" required>
+                        <option>General Ward</option>
+                        <option>ICU</option>
+                        <option>Pediatric Ward</option>
+                        <option>Maternity Ward</option>
+                        <option>Emergency Ward</option>
+                        <option>Private Room</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Add Bed</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Medicine Modal -->
+    <div id="addMedicineModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Medicine</h3>
+                <span class="close-modal" onclick="closeModal('addMedicineModal')">&times;</span>
+            </div>
+            <form id="addMedicineForm">
+                <div class="form-group">
+                    <label>Medicine Name</label>
+                    <input type="text" id="medicineName" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="medicineCategory" required>
+                        <option>Antibiotic</option>
+                        <option>Painkiller</option>
+                        <option>Vitamin</option>
+                        <option>Antiseptic</option>
+                        <option>Cardiac</option>
+                        <option>Diabetic</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Stock Quantity</label>
+                        <input type="number" id="medicineStock" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit Price ($)</label>
+                        <input type="number" step="0.01" id="medicinePrice" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="date" id="medicineExpiry" required>
+                </div>
+                <button type="submit" class="btn">Add Medicine</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Emergency Modal -->
+    <div id="addEmergencyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Emergency Case</h3>
+                <span class="close-modal" onclick="closeModal('addEmergencyModal')">&times;</span>
+            </div>
+            <form id="addEmergencyForm">
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text" id="emergencyPatientName" required>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" id="emergencyAge" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="emergencyPriority" required>
+                            <option value="critical">Critical</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Condition/Symptoms</label>
+                    <textarea id="emergencyCondition" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Vital Signs</label>
+                    <input type="text" id="emergencyVitals" placeholder="e.g., BP: 120/80, Pulse: 72">
+                </div>
+                <button type="submit" class="btn btn-danger">Add to Emergency Queue</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Patient Details Modal -->
+    <div id="viewPatientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Patient Details</h3>
+                <span class="close-modal" onclick="closeModal('viewPatientModal')">&times;</span>
+            </div>
+            <div id="patientDetailsContent"></div>
+        </div>
+    </div>
+
+    <!-- Consultation Modal -->
+    <div id="consultationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Consultation</h3>
+                <span class="close-modal" onclick="closeModal('consultationModal')">&times;</span>
+            </div>
+            <form id="consultationForm">
+                <div id="consultationPatientInfo"></div>
+                <div class="form-group">
+                    <label>Diagnosis</label>
+                    <textarea id="consultationDiagnosis" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Prescription</label>
+                    <textarea id="consultationPrescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="consultationNotes" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn">Save Consultation</button>
+            </form>
+        </div>
+    </div>
 
     <script>
-        // --- DATA STATE ---
-        let state = {
-            patients: [
-                {id: 1, name: "Alice Johnson", age: 29, gender: "Female"},
-                {id: 2, name: "Bob Smith", age: 45, gender: "Male"}
-            ],
-            appointments: [
-                {name: "Alice Johnson", date: "2023-10-25", dept: "Cardiology", status: "Confirmed"}
-            ],
-            beds: Array.from({length: 12}, (_, i) => ({id: i+1, occupied: Math.random() > 0.5})),
-            inventory: [
-                {name: "Paracetamol", stock: 500, cat: "Medicine"},
-                {name: "Insulin", stock: 45, cat: "Critical"},
-                {name: "Surgical Masks", stock: 1200, cat: "Supplies"}
-            ],
-            erQueue: ["Mark Evans", "Sarah Connor"]
-        };
+        // Data Storage
+        let patients = [];
+        let appointments = [];
+        let beds = [];
+        let medicines = [];
+        let emergencyQueue = [];
+        let medicalRecords = [];
+        let currentUser = null;
 
-        let currentUserRole = "Admin";
+        // Initialize with sample data
+        function initializeSampleData() {
+            // Sample Patients
+            patients = [
+                { id: 'P001', name: 'John Doe', age: 35, gender: 'Male', contact: '123-456-7890', email: 'john@email.com', address: '123 Main St', bloodGroup: 'O+' },
+                { id: 'P002', name: 'Jane Smith', age: 28, gender: 'Female', contact: '098-765-4321', email: 'jane@email.com', address: '456 Oak Ave', bloodGroup: 'A+' },
+                { id: 'P003', name: 'Robert Johnson', age: 45, gender: 'Male', contact: '555-123-4567', email: 'robert@email.com', address: '789 Pine Rd', bloodGroup: 'B+' }
+            ];
 
-        // --- AUTH LOGIC ---
-        function login() {
-            currentUserRole = document.getElementById('role-select').value;
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('sidebar').style.display = 'flex';
-            document.getElementById('main-content').style.display = 'block';
-            document.getElementById('user-display').innerText = `HMS ${currentUserRole}`;
-            
-            // Filter Sidebar buttons
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                if (btn.id === 'logout-btn') return;
-                const roleClass = `role-${currentUserRole.toLowerCase()}`;
-                if (currentUserRole === 'Admin' || btn.classList.contains(roleClass)) {
-                    btn.style.display = 'block';
-                } else {
-                    btn.style.display = 'none';
-                }
-            });
+            // Sample Appointments
+            appointments = [
+                { id: 'A001', patientId: 'P001', patientName: 'John Doe', doctor: 'Dr. Sarah Johnson - Cardiologist', date: '2026-05-13', time: '10:00', status: 'Pending', reason: 'Regular checkup' },
+                { id: 'A002', patientId: 'P002', patientName: 'Jane Smith', doctor: 'Dr. Emily Davis - Pediatrician', date: '2026-05-13', time: '14:00', status: 'Pending', reason: 'Vaccination' }
+            ];
 
-            renderAll();
+            // Sample Beds
+            beds = [
+                { id: 'B001', number: 'ICU-01', ward: 'ICU', status: 'Occupied', patientName: 'John Doe', admittedDate: '2026-05-10' },
+                { id: 'B002', number: 'GW-01', ward: 'General Ward', status: 'Available', patientName: '', admittedDate: '' },
+                { id: 'B003', number: 'GW-02', ward: 'General Ward', status: 'Available', patientName: '', admittedDate: '' },
+                { id: 'B004', number: 'ICU-02', ward: 'ICU', status: 'Available', patientName: '', admittedDate: '' }
+            ];
+
+            // Sample Medicines
+            medicines = [
+                { id: 'M001', name: 'Amoxicillin', category: 'Antibiotic', stock: 150, price: 12.50, expiry: '2027-08-15' },
+                { id: 'M002', name: 'Paracetamol', category: 'Painkiller', stock: 300, price: 5.00, expiry: '2027-12-20' },
+                { id: 'M003', name: 'Vitamin D3', category: 'Vitamin', stock: 200, price: 8.75, expiry: '2028-01-10' }
+            ];
+
+            // Sample Emergency Queue
+            emergencyQueue = [
+                { id: 'E001', patientName: 'Emergency Patient 1', age: 52, priority: 'critical', condition: 'Chest pain, shortness of breath', vitals: 'BP: 160/100, Pulse: 110', arrivalTime: new Date().toLocaleTimeString() }
+            ];
+
+            // Sample Medical Records
+            medicalRecords = [
+                { patientId: 'P001', patientName: 'John Doe', date: '2026-05-10', doctor: 'Dr. Sarah Johnson', diagnosis: 'Hypertension', prescription: 'Amlodipine 5mg daily', notes: 'Follow up in 2 weeks' }
+            ];
+
+            updateDashboard();
         }
 
+        // Login Handling
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const userType = document.getElementById('userType').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simple authentication (for demo purposes)
+            if (username === userType && password === userType) {
+                currentUser = { type: userType, username: username };
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').classList.add('active');
+                document.getElementById('welcomeMessage').textContent = Welcome, ${userType.charAt(0).toUpperCase() + userType.slice(1)};
+                initializeSampleData();
+            } else {
+                alert('Invalid credentials. Use demo credentials: admin/admin, doctor/doctor, nurse/nurse, patient/patient');
+            }
+        });
+
+        // Logout
         function logout() {
-            location.reload();
+            currentUser = null;
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('loginForm').reset();
         }
 
-        // --- NAVIGATION ---
-        function showView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            event.currentTarget.classList.add('active');
+        // Navigation
+        function showSection(sectionId) {
+            // Remove active from all sections and sidebar items
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+            
+            // Add active to selected section
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            // Load section data
+            if (sectionId === 'patients') loadPatients();
+            if (sectionId === 'appointments') loadAppointments();
+            if (sectionId === 'consultation') loadConsultation();
+            if (sectionId === 'beds') loadBeds();
+            if (sectionId === 'pharmacy') loadPharmacy();
+            if (sectionId === 'emergency') loadEmergencyQueue();
+            if (sectionId === 'overview') updateDashboard();
         }
 
-        // --- CORE FUNCTIONS ---
-        function registerPatient() {
-            const name = document.getElementById('reg-name').value;
-            const age = document.getElementById('reg-age').value;
-            const gender = document.getElementById('reg-gender').value;
-
-            if(!name || !age) return alert("Please fill all fields");
-
-            state.patients.push({id: state.patients.length + 1, name, age, gender});
-            renderPatients();
-            updateStats();
-            alert("Patient Registered!");
-        }
-
-        function scheduleApp() {
-            const name = document.getElementById('app-name').value;
-            const date = document.getElementById('app-date').value;
-            const dept = document.getElementById('app-dept').value;
-
-            if(!name || !date) return alert("Fill fields");
-
-            state.appointments.push({name, date, dept, status: "Pending"});
-            renderAppointments();
-            updateStats();
-        }
-
-        function addToER() {
-            const name = document.getElementById('er-input').value;
-            if(name) {
-                state.erQueue.push(name);
-                renderER();
-                document.getElementById('er-input').value = "";
+        // Modal Handling
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            if (modalId === 'addAppointmentModal') {
+                populatePatientDropdown();
             }
         }
 
-        function toggleBed(id) {
-            const bed = state.beds.find(b => b.id === id);
-            bed.occupied = !bed.occupied;
-            renderBeds();
-            updateStats();
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
         }
 
-        // --- RENDERING ENGINE ---
-        function renderAll() {
-            renderPatients();
-            renderAppointments();
-            renderBeds();
-            renderInventory();
-            renderER();
-            updateStats();
+        // Update Dashboard Stats
+        function updateDashboard() {
+            document.getElementById('totalPatients').textContent = patients.length;
+            document.getElementById('todayAppointments').textContent = appointments.filter(a => a.status === 'Pending').length;
+            document.getElementById('availableBeds').textContent = beds.filter(b => b.status === 'Available').length;
+            document.getElementById('emergencyCases').textContent = emergencyQueue.length;
+
+            // Recent Activity
+            const activityHtml = `
+                <p>✅ New patient registered: ${patients[patients.length - 1]?.name || 'N/A'}</p>
+                <p>📅 Appointment scheduled for ${appointments[appointments.length - 1]?.patientName || 'N/A'}</p>
+                <p>🛏️ Bed ${beds.find(b => b.status === 'Occupied')?.number || 'N/A'} occupied</p>
+                <p>🚨 ${emergencyQueue.length} case(s) in emergency queue</p>
+            `;
+            document.getElementById('recentActivity').innerHTML = activityHtml;
         }
 
-        function renderPatients() {
-            const tbody = document.querySelector('#patient-table tbody');
-            tbody.innerHTML = state.patients.map(p => 
-                `<tr><td>#${p.id}</td><td>${p.name}</td><td>${p.age}</td><td>${p.gender}</td></tr>`
-            ).join('');
+        // Patient Management
+        document.getElementById('addPatientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const patient = {
+                id: 'P' + String(patients.length + 1).padStart(3, '0'),
+                name: document.getElementById('patientName').value,
+                age: document.getElementById('patientAge').value,
+                gender: document.getElementById('patientGender').value,
+                contact: document.getElementById('patientContact').value,
+                email: document.getElementById('patientEmail').value,
+                address: document.getElementById('patientAddress').value,
+                bloodGroup: document.getElementById('patientBlood').value
+            };
+            patients.push(patient);
+            closeModal('addPatientModal');
+            this.reset();
+            loadPatients();
+            updateDashboard();
+            alert('Patient added successfully!');
+        });
+
+        function loadPatients() {
+            const tbody = document.querySelector('#patientsTable tbody');
+            tbody.innerHTML = '';
+            patients.forEach(patient => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${patient.id}</td>
+                        <td>${patient.name}</td>
+                        <td>${patient.age}</td>
+                        <td>${patient.gender}</td>
+                        <td>${patient.contact}</td>
+                        <td>
+                            <button class="btn btn-small" onclick="viewPatient('${patient.id}')">View</button>
+                            <button class="btn btn-small btn-danger" onclick="deletePatient('${patient.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
         }
 
-        function renderAppointments() {
-            const tbody = document.querySelector('#app-table tbody');
-            tbody.innerHTML = state.appointments.map(a => 
-                `<tr><td>${a.name}</td><td>${a.date}</td><td>${a.dept}</td><td><span class="badge badge-available">${a.status}</span></td></tr>`
-            ).join('');
+        function viewPatient(patientId) {
+            const patient = patients.find(p => p.id === patientId);
+            if (patient) {
+                const content = `
+                    <p><strong>Patient ID:</strong> ${patient.id}</p>
+                    <p><strong>Name:</strong> ${patient.name}</p>
+                    <p><strong>Age:</strong> ${patient.age}</p>
+                    <p><strong>Gender:</strong> ${patient.gender}</p>
+                    <p><strong>Contact:</strong> ${patient.contact}</p>
+                    <p><strong>Email:</strong> ${patient.email}</p>
+                    <p><strong>Address:</strong> ${patient.address}</p>
+                    <p><strong>Blood Group:</strong> ${patient.bloodGroup}</p>
+                `;
+                document.getElementById('patientDetailsContent').innerHTML = content;
+                openModal('viewPatientModal');
+            }
         }
 
-        function renderBeds() {
-            const grid = document.getElementById('bed-grid');
-            grid.innerHTML = state.beds.map(b => `
-                <div class="card" style="text-align:center; border-top: 5px solid ${b.occupied ? 'red' : 'green'}">
-                    <h4>Bed ${b.id}</h4>
-                    <span class="badge ${b.occupied ? 'badge-occupied' : 'badge-available'}">
-                        ${b.occupied ? 'Occupied' : 'Available'}
-                    </span>
-                    <br><br>
-                    <button class="btn-action" onclick="toggleBed(${b.id})">Toggle Status</button>
+        function deletePatient(patientId) {
+            if (confirm('Are you sure you want to delete this patient?')) {
+                patients = patients.filter(p => p.id !== patientId);
+                loadPatients();
+                updateDashboard();
+            }
+        }
+
+        // Appointments
+        function populatePatientDropdown() {
+            const select = document.getElementById('appointmentPatient');
+            select.innerHTML = '<option value="">Select Patient</option>';
+            patients.forEach(patient => {
+                select.innerHTML += <option value="${patient.id}">${patient.name} (${patient.id})</option>;
+            });
+        }
+
+        document.getElementById('addAppointmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const patientId = document.getElementById('appointmentPatient').value;
+            const patient = patients.find(p => p.id === patientId);
+            
+            const appointment = {
+                id: 'A' + String(appointments.length + 1).padStart(3, '0'),
+                patientId: patientId,
+                patientName: patient.name,
+                doctor: document.getElementById('appointmentDoctor').value,
+                date: document.getElementById('appointmentDate').value,
+                time: document.getElementById('appointmentTime').value,
+                status: 'Pending',
+                reason: document.getElementById('appointmentReason').value
+            };
+            appointments.push(appointment);
+            closeModal('addAppointmentModal');
+            this.reset();
+            loadAppointments();
+            updateDashboard();
+            alert('Appointment scheduled successfully!');
+        });
+
+        function loadAppointments() {
+            const tbody = document.querySelector('#appointmentsTable tbody');
+            tbody.innerHTML = '';
+            appointments.forEach(apt => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${apt.id}</td>
+                        <td>${apt.patientName}</td>
+                        <td>${apt.doctor}</td>
+                        <td>${apt.date} ${apt.time}</td>
+                        <td><span class="status-badge status-${apt.status.toLowerCase()}">${apt.status}</span></td>
+                        <td>
+                            <button class="btn btn-small btn-success" onclick="completeAppointment('${apt.id}')">Complete</button>
+                            <button class="btn btn-small btn-danger" onclick="cancelAppointment('${apt.id}')">Cancel</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function completeAppointment(aptId) {
+            const apt = appointments.find(a => a.id === aptId);
+            if (apt) {
+                apt.status = 'Completed';
+                loadAppointments();
+                updateDashboard();
+            }
+        }
+
+        function cancelAppointment(aptId) {
+            if (confirm('Cancel this appointment?')) {
+                appointments = appointments.filter(a => a.id !== aptId);
+                loadAppointments();
+                updateDashboard();
+            }
+        }
+
+        // Consultation
+        function loadConsultation() {
+            const tbody = document.querySelector('#consultationTable tbody');
+            tbody.innerHTML = '';
+            const pendingAppointments = appointments.filter(a => a.status === 'Pending');
+            pendingAppointments.forEach(apt => {
+                const patient = patients.find(p => p.id === apt.patientId);
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${apt.patientName}</td>
+                        <td>${patient?.age || 'N/A'}</td>
+                        <td>${apt.date} ${apt.time}</td>
+                        <td><span class="status-badge status-pending">${apt.status}</span></td>
+                        <td>
+                            <button class="btn btn-small" onclick="startConsultation('${apt.id}')">Start Consultation</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        let currentConsultationId = null;
+
+        function startConsultation(aptId) {
+            currentConsultationId = aptId;
+            const apt = appointments.find(a => a.id === aptId);
+            const patient = patients.find(p => p.id === apt.patientId);
+            
+            document.getElementById('consultationPatientInfo').innerHTML = `
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4>${patient.name}</h4>
+                    <p>Age: ${patient.age} | Gender: ${patient.gender} | Blood Group: ${patient.bloodGroup}</p>
+                    <p>Reason: ${apt.reason}</p>
                 </div>
-            `).join('');
+            `;
+            openModal('consultationModal');
         }
 
-        function renderInventory() {
-            const tbody = document.querySelector('#inventory-table tbody');
-            tbody.innerHTML = state.inventory.map(i => 
-                `<tr><td>${i.name}</td><td>${i.stock}</td><td>${i.cat}</td><td><button onclick="alert('Order Sent')">Restock</button></td></tr>`
-            ).join('');
+        document.getElementById('consultationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const apt = appointments.find(a => a.id === currentConsultationId);
+            const patient = patients.find(p => p.id === apt.patientId);
+            
+            const record = {
+                patientId: patient.id,
+                patientName: patient.name,
+                date: new Date().toLocaleDateString(),
+                doctor: apt.doctor,
+                diagnosis: document.getElementById('consultationDiagnosis').value,
+                prescription: document.getElementById('consultationPrescription').value,
+                notes: document.getElementById('consultationNotes').value
+            };
+            
+            medicalRecords.push(record);
+            apt.status = 'Completed';
+            
+            closeModal('consultationModal');
+            this.reset();
+            loadConsultation();
+            updateDashboard();
+            alert('Consultation saved successfully!');
+        });
+
+        // Beds
+        document.getElementById('addBedForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const bed = {
+                id: 'B' + String(beds.length + 1).padStart(3, '0'),
+                number: document.getElementById('bedNumber').value,
+                ward: document.getElementById('bedWard').value,
+                status: 'Available',
+                patientName: '',
+                admittedDate: ''
+            };
+            beds.push(bed);
+            closeModal('addBedModal');
+            this.reset();
+            loadBeds();
+            updateDashboard();
+            alert('Bed added successfully!');
+        });
+
+        function loadBeds() {
+            const tbody = document.querySelector('#bedsTable tbody');
+            tbody.innerHTML = '';
+            beds.forEach(bed => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${bed.number}</td>
+                        <td>${bed.ward}</td>
+                        <td><span class="status-badge status-${bed.status.toLowerCase()}">${bed.status}</span></td>
+                        <td>${bed.patientName || '-'}</td>
+                        <td>${bed.admittedDate || '-'}</td>
+                        <td>
+                            ${bed.status === 'Available' ? 
+                                <button class="btn btn-small btn-success" onclick="assignBed('${bed.id}')">Assign</button> :
+                                <button class="btn btn-small btn-danger" onclick="dischargeBed('${bed.id}')">Discharge</button>
+                            }
+                        </td>
+                    </tr>
+                `;
+            });
         }
 
-        function renderER() {
-            const list = document.getElementById('er-list');
-            list.innerHTML = state.erQueue.map((p, index) => 
-                `<li style="margin-bottom:10px;"><b>${p}</b> <button onclick="state.erQueue.splice(${index},1); renderER();" style="font-size:0.7rem;">Discharge/Move</button></li>`
-            ).join('');
+        function assignBed(bedId) {
+            const patientName = prompt('Enter patient name:');
+            if (patientName) {
+                const bed = beds.find(b => b.id === bedId);
+                bed.status = 'Occupied';
+                bed.patientName = patientName;
+                bed.admittedDate = new Date().toLocaleDateString();
+                loadBeds();
+                updateDashboard();
+            }
         }
 
-        function updateStats() {
-            document.getElementById('stat-patients').innerText = state.patients.length;
-            document.getElementById('stat-appointments').innerText = state.appointments.length;
-            const avail = state.beds.filter(b => !b.occupied).length;
-            document.getElementById('stat-beds').innerText = `${avail}/${state.beds.length}`;
+        function dischargeBed(bedId) {
+            if (confirm('Discharge patient from this bed?')) {
+                const bed = beds.find(b => b.id === bedId);
+                bed.status = 'Available';
+                bed.patientName = '';
+                bed.admittedDate = '';
+                loadBeds();
+                updateDashboard();
+            }
+        }
+
+        // Pharmacy
+        document.getElementById('addMedicineForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const medicine = {
+                id: 'M' + String(medicines.length + 1).padStart(3, '0'),
+                name: document.getElementById('medicineName').value,
+                category: document.getElementById('medicineCategory').value,
+                stock: document.getElementById('medicineStock').value,
+                price: document.getElementById('medicinePrice').value,
+                expiry: document.getElementById('medicineExpiry').value
+            };
+            medicines.push(medicine);
+            closeModal('addMedicineModal');
+            this.reset();
+            loadPharmacy();
+            alert('Medicine added successfully!');
+        });
+
+        function loadPharmacy() {
+            const tbody = document.querySelector('#pharmacyTable tbody');
+            tbody.innerHTML = '';
+            medicines.forEach(med => {
+                const isLowStock = med.stock < 50;
+                tbody.innerHTML += `
+                    <tr style="${isLowStock ? 'background: #fff3cd;' : ''}">
+                        <td>${med.name}</td>
+                        <td>${med.category}</td>
+                        <td>${med.stock} ${isLowStock ? '⚠️ Low Stock' : ''}</td>
+                        <td>$${med.price}</td>
+                        <td>${med.expiry}</td>
+                        <td>
+                            <button class="btn btn-small" onclick="updateStock('${med.id}')">Update Stock</button>
+                            <button class="btn btn-small btn-danger" onclick="deleteMedicine('${med.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function updateStock(medId) {
+            const newStock = prompt('Enter new stock quantity:');
+            if (newStock && !isNaN(newStock)) {
+                const med = medicines.find(m => m.id === medId);
+                med.stock = parseInt(newStock);
+                loadPharmacy();
+            }
+        }
+
+        function deleteMedicine(medId) {
+            if (confirm('Delete this medicine?')) {
+                medicines = medicines.filter(m => m.id !== medId);
+                loadPharmacy();
+            }
+        }
+
+        // Emergency Queue
+        document.getElementById('addEmergencyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emergency = {
+                id: 'E' + String(emergencyQueue.length + 1).padStart(3, '0'),
+                patientName: document.getElementById('emergencyPatientName').value,
+                age: document.getElementById('emergencyAge').value,
+                priority: document.getElementById('emergencyPriority').value,
+                condition: document.getElementById('emergencyCondition').value,
+                vitals: document.getElementById('emergencyVitals').value,
+                arrivalTime: new Date().toLocaleTimeString()
+            };
+            emergencyQueue.push(emergency);
+            closeModal('addEmergencyModal');
+            this.reset();
+            loadEmergencyQueue();
+            updateDashboard();
+            alert('Emergency case added to queue!');
+        });
+
+        function loadEmergencyQueue() {
+            const container = document.getElementById('emergencyQueue');
+            if (emergencyQueue.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">No emergency cases in queue</p>';
+                return;
+            }
+
+            // Sort by priority
+            const priorityOrder = { critical: 1, high: 2, medium: 3, low: 4 };
+            const sorted = [...emergencyQueue].sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+
+            container.innerHTML = '';
+            sorted.forEach(emergency => {
+                const priorityClass = emergency.priority === 'critical' ? 'critical' : '';
+                const priorityText = emergency.priority.charAt(0).toUpperCase() + emergency.priority.slice(1);
+                
+                container.innerHTML += `
+                    <div class="queue-item ${priorityClass}">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                            <div>
+                                <h4 style="margin-bottom: 5px;">${emergency.patientName} (${emergency.age} years)</h4>
+                                <span class="priority-${emergency.priority}">${priorityText} Priority</span>
+                            </div>
+                            <div style="text-align: right;">
+                                <small>Arrival: ${emergency.arrivalTime}</small>
+                            </div>
+                        </div>
+                        <p><strong>Condition:</strong> ${emergency.condition}</p>
+                        <p><strong>Vitals:</strong> ${emergency.vitals}</p>
+                        <div style="margin-top: 10px;">
+                            <button class="btn btn-small btn-success" onclick="attendEmergency('${emergency.id}')">Attend Now</button>
+                            <button class="btn btn-small btn-danger" onclick="removeEmergency('${emergency.id}')">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function attendEmergency(emergencyId) {
+            if (confirm('Mark this emergency case as attended?')) {
+                emergencyQueue = emergencyQueue.filter(e => e.id !== emergencyId);
+                loadEmergencyQueue();
+                updateDashboard();
+                alert('Patient is being attended to.');
+            }
+        }
+
+        function removeEmergency(emergencyId) {
+            if (confirm('Remove this case from emergency queue?')) {
+                emergencyQueue = emergencyQueue.filter(e => e.id !== emergencyId);
+                loadEmergencyQueue();
+                updateDashboard();
+            }
+        }
+
+        // Medical Records Search
+        function searchMedicalRecords() {
+            const searchTerm = document.getElementById('searchPatient').value.toLowerCase();
+            const content = document.getElementById('medicalRecordsContent');
+            
+            if (!searchTerm) {
+                content.innerHTML = '<p style="text-align: center; color: #999;">Enter a patient name or ID to search records</p>';
+                return;
+            }
+
+            const filtered = medicalRecords.filter(record => 
+                record.patientName.toLowerCase().includes(searchTerm) || 
+                record.patientId.toLowerCase().includes(searchTerm)
+            );
+
+            if (filtered.length === 0) {
+                content.innerHTML = '<p style="text-align: center; color: #999;">No records found</p>';
+                return;
+            }
+
+            content.innerHTML = '';
+            filtered.forEach(record => {
+                content.innerHTML += `
+                    <div class="card" style="background: #f8f9fa; margin-top: 15px;">
+                        <h4>${record.patientName} (${record.patientId})</h4>
+                        <p><strong>Date:</strong> ${record.date}</p>
+                        <p><strong>Doctor:</strong> ${record.doctor}</p>
+                        <p><strong>Diagnosis:</strong> ${record.diagnosis}</p>
+                        <p><strong>Prescription:</strong> ${record.prescription}</p>
+                        <p><strong>Notes:</strong> ${record.notes}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
         }
     </script>
 </body>
